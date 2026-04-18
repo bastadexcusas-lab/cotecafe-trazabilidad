@@ -850,7 +850,8 @@ async function processImage(e, tipo) {
       : (parsed.pases || []).length + ' pases detectados';
   } catch(err) {
     spin.style.display = 'none';
-    txt.textContent = 'No se pudo extraer automáticamente. Rellena manualmente.';
+    txt.textContent = 'Error IA: ' + err.message;
+    res.textContent = 'Rellena los campos manualmente.';
     console.error(err);
   }
 }
@@ -889,7 +890,8 @@ async function processImageRoasTime(file) {
     res.textContent = (parsed.pases || []).length + ' pases detectados';
   } catch(err) {
     spin.style.display = 'none';
-    txt.textContent = 'No se pudo extraer automáticamente. Añade los pases manualmente.';
+    txt.textContent = 'Error IA: ' + err.message;
+    res.textContent = 'Añade los pases manualmente.';
     console.error(err);
   }
 }
@@ -914,7 +916,8 @@ async function processCsvRoasTime(file) {
     res.textContent = (parsed.pases||[]).length + ' pases importados desde RoasTime';
   } catch(err) {
     spin.style.display = 'none';
-    txt.textContent = 'Error procesando CSV. Añade los pases manualmente.';
+    txt.textContent = 'Error IA: ' + err.message;
+    res.textContent = 'Añade los pases manualmente.';
     console.error(err);
   }
 }
@@ -988,8 +991,13 @@ async function callClaude(messages) {
       'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true'
     },
-    body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, messages })
+    body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, messages })
   });
+  if (!r.ok) {
+    const errBody = await r.json().catch(() => ({}));
+    const msg = errBody?.error?.message || r.statusText;
+    throw new Error(`Error ${r.status} — ${msg}`);
+  }
   return r.json();
 }
 
