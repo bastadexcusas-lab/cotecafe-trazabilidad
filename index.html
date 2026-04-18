@@ -975,21 +975,22 @@ function actualizarEstadoApiKey() {
 }
 
 // ═══════════════════════════════════════
-// CLAUDE API
+// CLAUDE API — proxy Cloudflare Worker (evita CORS desde GitHub Pages)
 // ═══════════════════════════════════════
+const WORKER_URL = 'https://cotecafe-proxy.bastadexcusas.workers.dev/';
+
 async function callClaude(messages) {
   const key = getApiKey();
   if (!key) {
     openApiKeyModal();
     throw new Error('API key no configurada');
   }
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
+  const r = await fetch(WORKER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
+      'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, messages })
   });
