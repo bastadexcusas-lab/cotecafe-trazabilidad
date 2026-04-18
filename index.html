@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coté Café — Trazabilidad</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --espresso: #1a0e08;
+  --roast:    #3d2010;
+  --caramel:  #c8843a;
+  --cream:    #f5ede0;
+  --latte:    #e8d5b8;
+  --milk:     #faf6f0;
+  --green:    #2d5016;
+  --green-bg: #e8f0d8;
+  --red:      #8b1a1a;
+  --red-bg:   #fce8e8;
+  --amber:    #92600a;
+  --amber-bg: #fef3d8;
+  --border:   rgba(61,32,16,0.15);
+  --shadow:   0 2px 16px rgba(26,14,8,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--milk); color: var(--espresso); min-height: 100vh; }
+
+.header { background: var(--espresso); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; }
+.header-brand { font-family: 'DM Serif Display', serif; color: var(--caramel); font-size: 18px; letter-spacing: 0.03em; }
+.header-sub { font-size: 11px; color: rgba(200,132,58,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; }
+.header-actions { display: flex; gap: 8px; }
+.header-btn { background: none; border: 1px solid rgba(200,132,58,0.3); color: var(--caramel); font-size: 11px; font-family: 'DM Mono', monospace; padding: 6px 14px; border-radius: 4px; cursor: pointer; letter-spacing: 0.05em; transition: all 0.2s; }
+.header-btn:hover { background: rgba(200,132,58,0.1); }
+
+.nav { background: var(--espresso); border-top: 1px solid rgba(200,132,58,0.1); display: flex; padding: 0 2rem; }
+.nav-btn { background: none; border: none; color: rgba(200,132,58,0.5); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; letter-spacing: 0.02em; }
+.nav-btn.active { color: var(--caramel); border-bottom-color: var(--caramel); }
+.nav-btn:hover:not(.active) { color: rgba(200,132,58,0.8); }
+.nav-badge { background: var(--caramel); color: var(--espresso); font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 10px; margin-left: 6px; font-family: 'DM Mono', monospace; }
+
+.main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+.view { display: none; }
+.view.active { display: block; }
+
+.card { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+.card-header { background: var(--espresso); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: 'DM Serif Display', serif; color: var(--caramel); font-size: 15px; }
+.card-step { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(200,132,58,0.5); letter-spacing: 0.1em; }
+.card-body { padding: 20px; }
+
+.form-grid { display: grid; gap: 14px; }
+.form-grid.cols2 { grid-template-columns: 1fr 1fr; }
+.form-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-grid.cols4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.span2 { grid-column: span 2; }
+.form-group.span3 { grid-column: span 3; }
+.form-group.span4 { grid-column: span 4; }
+label { font-size: 11px; font-weight: 500; color: rgba(26,14,8,0.5); letter-spacing: 0.05em; text-transform: uppercase; }
+input, select, textarea { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--espresso); background: var(--milk); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; transition: border-color 0.2s; outline: none; width: 100%; }
+input:focus, select:focus, textarea:focus { border-color: var(--caramel); background: white; }
+input.highlight { font-family: 'DM Mono', monospace; font-size: 13px; background: #fff8f0; border-color: var(--caramel); color: var(--roast); font-weight: 500; }
+input[readonly] { opacity: 0.8; cursor: default; }
+textarea { resize: vertical; min-height: 60px; }
+
+.btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; white-space: nowrap; }
+.btn-primary { background: var(--espresso); color: var(--caramel); }
+.btn-primary:hover { background: var(--roast); }
+.btn-secondary { background: var(--cream); color: var(--roast); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--latte); }
+.btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(139,26,26,0.2); }
+.btn-success { background: var(--green-bg); color: var(--green); border: 1px solid rgba(45,80,22,0.2); }
+.btn-caramel { background: var(--caramel); color: var(--espresso); font-weight: 500; }
+.btn-caramel:hover { background: #b5752f; }
+.btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem; align-items: center; flex-wrap: wrap; }
+
+.upload-zone { border: 2px dashed var(--border); border-radius: 10px; padding: 32px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--milk); }
+.upload-zone:hover, .upload-zone.drag { border-color: var(--caramel); background: #fff8f0; }
+.upload-icon { font-size: 28px; margin-bottom: 8px; }
+.upload-text { font-size: 13px; color: rgba(26,14,8,0.5); }
+.upload-text strong { color: var(--caramel); }
+.file-hidden { display: none; }
+
+.ai-box { background: #fff8f0; border: 1px solid rgba(200,132,58,0.3); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: none; }
+.ai-box.visible { display: block; }
+.ai-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--amber); font-weight: 500; }
+.ai-spinner { width: 14px; height: 14px; border: 2px solid rgba(200,132,58,0.2); border-top-color: var(--caramel); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ai-result { font-size: 12px; color: rgba(26,14,8,0.6); margin-top: 6px; font-family: 'DM Mono', monospace; }
+
+.alert { border-radius: 8px; padding: 12px 16px; font-size: 13px; margin-bottom: 12px; display: none; line-height: 1.5; }
+.alert.visible { display: flex; align-items: flex-start; gap: 10px; }
+.alert-danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(139,26,26,0.2); }
+.alert-success { background: var(--green-bg); color: var(--green); border: 1px solid rgba(45,80,22,0.2); }
+.alert-warning { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(146,96,10,0.2); }
+.alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+.section-divider { display: flex; align-items: center; gap: 10px; margin: 20px 0 14px; }
+.section-divider span { font-size: 11px; font-weight: 500; color: rgba(26,14,8,0.35); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.section-divider::before, .section-divider::after { content: ''; flex: 1; border-top: 1px solid var(--border); }
+
+.pcc-table { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+.pcc-head { display: grid; grid-template-columns: 32px 1fr 150px 90px; background: var(--espresso); }
+.pcc-head > div { padding: 8px 10px; font-size: 10px; font-weight: 500; color: rgba(200,132,58,0.6); letter-spacing: 0.08em; text-transform: uppercase; }
+.pcc-row { display: grid; grid-template-columns: 32px 1fr 150px 90px; border-top: 1px solid var(--border); align-items: center; }
+.pcc-num { background: var(--espresso); color: var(--caramel); font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; text-align: center; padding: 12px 0; align-self: stretch; display: flex; align-items: center; justify-content: center; }
+.pcc-desc { padding: 10px; font-size: 13px; }
+.pcc-limit { padding: 10px; font-size: 11px; color: rgba(26,14,8,0.5); font-family: 'DM Mono', monospace; border-left: 1px solid var(--border); }
+.pcc-check { padding: 10px; border-left: 1px solid var(--border); display: flex; gap: 12px; align-items: center; }
+.pcc-check label { font-size: 12px; text-transform: none; letter-spacing: 0; display: flex; align-items: center; gap: 4px; cursor: pointer; color: var(--espresso); }
+.pcc-check input[type=checkbox] { width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+
+/* PASES */
+.pases-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.pase-item { background: var(--milk); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+.pase-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--caramel); font-weight: 500; }
+.pase-datos { font-size: 12px; color: rgba(26,14,8,0.6); }
+.pase-temp { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; }
+.pase-temp.ok { color: var(--green); }
+.pase-temp.nc { color: var(--red); }
+.pase-del { background: none; border: none; color: rgba(26,14,8,0.3); cursor: pointer; font-size: 16px; padding: 0 4px; }
+.pase-del:hover { color: var(--red); }
+
+.totales-box { background: var(--milk); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.total-item { text-align: center; }
+.total-label { font-size: 10px; color: rgba(26,14,8,0.4); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.total-value { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--roast); }
+
+/* ETIQUETA */
+.etiqueta-wrap { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
+.et-preview-label { font-size: 11px; color: rgba(26,14,8,0.4); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+/* Proporción exacta 62×40mm = ratio 1.55:1. Usamos width fija y aspect-ratio. */
+.etiqueta { background: var(--espresso); border-radius: 6px; padding: 10px 13px; width: 310px; aspect-ratio: 62 / 40; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+.et-brand { font-family: 'DM Mono', monospace; font-size: 9px; color: #000000; letter-spacing: 0.12em; margin-bottom: 4px; }
+.et-hr { border: none; border-top: 1px solid #000000; margin: 4px 0; opacity: 0.3; }
+.et-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+.et-lbl { font-size: 7.5px; color: #000000; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; opacity: 0.6; }
+.et-val { font-size: 9.5px; color: #000000; font-family: 'DM Mono', monospace; text-align: right; font-weight: 600; }
+.et-lote { font-size: 8px; color: #000000; font-family: 'DM Mono', monospace; text-align: right; font-weight: 500; }
+.et-cons { font-size: 6.5px; color: #000000; margin-top: 3px; line-height: 1.35; opacity: 0.75; }
+.et-rec  { font-size: 6.5px; color: #000000; margin-top: 2px; line-height: 1.35; opacity: 0.55; }
+.et-nutr { font-size: 6.5px; color: #000000; margin-top: 2px; line-height: 1.35; opacity: 0.4; }
+
+/* HISTORIAL */
+.search-bar { display: flex; gap: 10px; margin-bottom: 1.5rem; }
+.search-bar input { flex: 1; }
+.lote-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 14px 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.lote-card:hover { border-color: var(--caramel); transform: translateY(-1px); }
+.lote-code { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--roast); }
+.lote-meta { font-size: 12px; color: rgba(26,14,8,0.4); margin-top: 2px; }
+.lote-right { display: flex; align-items: center; gap: 12px; }
+.lote-pases { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(26,14,8,0.35); }
+.status { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; white-space: nowrap; }
+.status.completo   { background: var(--green-bg); color: var(--green); }
+.status.pendiente  { background: var(--amber-bg); color: var(--amber); }
+.status.parcial    { background: #e8f0ff; color: #2a4a8a; }
+.status.incidencia { background: var(--red-bg);   color: var(--red); }
+.kg-stock { font-size: 11px; color: rgba(26,14,8,0.55); font-family: 'DM Mono', monospace; margin-top: 4px; letter-spacing: 0.01em; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: rgba(26,14,8,0.3); }
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(26,14,8,0.7); z-index: 200; display: none; align-items: center; justify-content: center; padding: 2rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 14px; width: 100%; max-width: 660px; max-height: 85vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(26,14,8,0.3); }
+.modal-header { background: var(--espresso); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; }
+.modal-title { font-family: 'DM Serif Display', serif; color: var(--caramel); font-size: 16px; }
+.modal-close { background: none; border: none; color: var(--caramel); font-size: 22px; cursor: pointer; opacity: 0.6; line-height: 1; }
+.modal-close:hover { opacity: 1; }
+.modal-body { padding: 20px; }
+
+.detail-section { margin-bottom: 20px; }
+.detail-title { font-size: 11px; font-weight: 500; color: rgba(26,14,8,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px; }
+.detail-key { color: rgba(26,14,8,0.45); }
+.detail-val { color: var(--espresso); font-weight: 400; }
+
+@media print {
+  /* Ocultar todo por defecto */
+  body > * { display: none !important; }
+
+  /* Modo A: imprimir desde Paso 3 */
+  body:not(.printing-etiqueta) #view-etiqueta { display: block !important; }
+  #view-etiqueta .card-header,
+  #view-etiqueta .et-preview-label,
+  #view-etiqueta .btn-row,
+  #view-etiqueta .form-grid,
+  #view-etiqueta > .card > .card-header { display: none !important; }
+
+  /* Modo B: imprimir desde historial */
+  body.printing-etiqueta #print-etiqueta-zone { display: block !important; }
+
+  /* Página exactamente 62×40mm sin márgenes */
+  @page {
+    size: 62mm 40mm;
+    margin: 0;
+  }
+
+  html, body {
+    width: 62mm;
+    height: 40mm;
+    margin: 0;
+    padding: 0;
+    background: white !important;
+  }
+
+  /* Contenedor de página — Paso 3 */
+  #view-etiqueta {
+    position: fixed;
+    inset: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 0;
+    margin: 0;
+  }
+
+  #view-etiqueta .card,
+  #view-etiqueta .card-body,
+  #et-content,
+  #et-content .etiqueta-wrap {
+    all: unset;
+    display: block;
+  }
+
+  /* Contenedor de página — historial */
+  #print-etiqueta-zone {
+    position: fixed;
+    inset: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Etiqueta física — reglas compartidas para ambos modos */
+  .etiqueta {
+    width: 62mm !important;
+    height: 40mm !important;
+    aspect-ratio: unset !important;
+    border-radius: 0 !important;
+    padding: 2.5mm 3mm !important;
+    box-sizing: border-box !important;
+    background: white !important;
+    border: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    overflow: hidden !important;
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Todos los textos a negro puro en impresión */
+  .et-brand, .et-lbl, .et-val, .et-lote, .et-cons, .et-rec, .et-nutr {
+    color: #000000 !important;
+    opacity: 1 !important;
+  }
+  .et-hr { border-top-color: #000000 !important; opacity: 0.25 !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div>
+    <div class="header-brand">Coté Café Roasters</div>
+    <div class="header-sub">TRAZABILIDAD DE LOTES · APPCC</div>
+  </div>
+  <div class="header-actions">
+    <span id="sync-indicator" style="font-size:11px;font-family:'DM Mono',monospace;padding:0 10px;"></span>
+    <button class="header-btn" onclick="importBackup()">⬆ Importar backup</button>
+    <button class="header-btn" onclick="exportBackup()">⬇ Exportar backup</button>
+    <input type="file" id="import-file" accept=".json" class="file-hidden" onchange="handleImport(event)">
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showView('recepcion',this)">1 · Recepción</button>
+  <button class="nav-btn" onclick="showView('tostado',this)">2 · Tostado</button>
+  <button class="nav-btn" onclick="showView('etiqueta',this)">3 · Etiqueta</button>
+  <button class="nav-btn" onclick="showView('historial',this)">Historial <span class="nav-badge" id="badge-count">0</span></button>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     PASO 1 — RECEPCIÓN DEL SACO
+══════════════════════════════════════ -->
+<div class="view active" id="view-recepcion">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Recepción del saco de café verde</span>
+      <span class="card-step">PASO 01 / 03</span>
+    </div>
+    <div class="card-body">
+
+      <div class="upload-zone" onclick="document.getElementById('saco-file').click()"
+           ondragover="event.preventDefault();this.classList.add('drag')"
+           ondragleave="this.classList.remove('drag')"
+           ondrop="handleDrop(event,'saco')">
+        <div class="upload-icon">📦</div>
+        <div class="upload-text"><strong>Foto o PDF de la etiqueta del saco / factura</strong><br>La IA extrae todos los datos automáticamente</div>
+      </div>
+      <input type="file" id="saco-file" accept="image/*,.pdf,application/pdf" class="file-hidden" onchange="processImage(event,'saco')">
+
+      <div class="ai-box" id="ai-saco">
+        <div class="ai-status"><div class="ai-spinner" id="spin-saco"></div><span id="txt-saco">Analizando etiqueta del saco...</span></div>
+        <div class="ai-result" id="res-saco"></div>
+      </div>
+
+      <div class="section-divider"><span>Distribuidor</span></div>
+      <div class="form-grid cols2">
+        <div class="form-group">
+          <label>Distribuidor / Proveedor</label>
+          <input type="text" id="r-proveedor" placeholder="ej. IO Coffees Producers and Processors SL">
+        </div>
+        <div class="form-group">
+          <label>N.º RGSEAA del distribuidor</label>
+          <input type="text" id="r-rgseaa" placeholder="RGSEAA-XXXX">
+        </div>
+        <div class="form-group">
+          <label>N.º Factura</label>
+          <input type="text" id="r-factura" placeholder="FAC-2025-XXXX">
+        </div>
+        <div class="form-group">
+          <label>Fecha de factura</label>
+          <input type="date" id="r-fecha-factura">
+        </div>
+      </div>
+
+      <div class="section-divider"><span>Café verde</span></div>
+      <div class="form-grid cols4">
+        <div class="form-group span2">
+          <label>País de origen</label>
+          <input type="text" id="r-origen" placeholder="ej. Colombia">
+        </div>
+        <div class="form-group">
+          <label>Región</label>
+          <input type="text" id="r-region" placeholder="ej. Cauca">
+        </div>
+        <div class="form-group">
+          <label>Variedad</label>
+          <input type="text" id="r-variedad" placeholder="ej. Castillo P-00">
+        </div>
+        <div class="form-group">
+          <label>Productor / Finca</label>
+          <input type="text" id="r-productor" placeholder="ej. Wilton Benitez">
+        </div>
+        <div class="form-group">
+          <label>Proceso</label>
+          <input type="text" id="r-proceso" placeholder="ej. Lavado">
+        </div>
+        <div class="form-group">
+          <label>Kg recibidos</label>
+          <input type="number" id="r-kg" placeholder="0.0" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>Lote del proveedor</label>
+          <input type="text" id="r-lote-proveedor" placeholder="ej. 3-2409-00020">
+        </div>
+      </div>
+
+      <div class="section-divider"><span>PCC-1 — Control OTA</span></div>
+      <div class="form-grid cols2">
+        <div class="form-group">
+          <label>Resultado OTA (µg/kg) — del certificado del distribuidor</label>
+          <input type="number" id="r-ota" placeholder="ej. 1.2" step="0.1" oninput="checkOTA()">
+        </div>
+        <div class="form-group">
+          <label>¿Certificado OTA disponible?</label>
+          <select id="r-ota-cert" onchange="checkOTA()">
+            <option value="">— Seleccionar —</option>
+            <option value="si">Sí — adjunto en el expediente</option>
+            <option value="solicitado">Solicitado, pendiente de recibir</option>
+            <option value="no">No disponible</option>
+          </select>
+        </div>
+      </div>
+      <div class="alert alert-danger" id="alert-ota-alto"><span class="alert-icon">⚠</span><div><strong>PCC-1 NO CONFORME:</strong> OTA supera 5 µg/kg. Este lote no puede procesarse. Contactar con el distribuidor y documentar la incidencia.</div></div>
+      <div class="alert alert-warning" id="alert-ota-falta"><span class="alert-icon">⚠</span><div><strong>Atención:</strong> Sin certificado OTA el PCC-1 no puede verificarse. Solicítalo al distribuidor antes de tostar.</div></div>
+
+      <div class="section-divider"><span>Inspección visual</span></div>
+      <div class="form-grid cols2">
+        <div class="form-group">
+          <label>Estado del saco en recepción</label>
+          <select id="r-inspeccion" onchange="checkInspeccion()">
+            <option value="">— Seleccionar —</option>
+            <option value="ok">✓ Sin anomalías</option>
+            <option value="humedad">Señales de humedad</option>
+            <option value="plagas">Indicios de plagas</option>
+            <option value="olor">Olores anómalos</option>
+            <option value="dano">Daño físico en el saco</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Observaciones</label>
+          <input type="text" id="r-obs" placeholder="Opcional">
+        </div>
+      </div>
+      <div class="alert alert-danger" id="alert-inspeccion"><span class="alert-icon">⚠</span><div><strong>Incidencia en recepción:</strong> Anomalía detectada. Documenta la acción correctora en observaciones.</div></div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="limpiarRecepcion()">Limpiar</button>
+        <button class="btn btn-caramel" onclick="crearLote()">Crear lote →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PASO 2 — TOSTADO
+══════════════════════════════════════ -->
+<div class="view" id="view-tostado">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Sesión de tostado</span>
+      <span class="card-step">PASO 02 / 03</span>
+    </div>
+    <div class="card-body">
+
+      <div class="form-grid cols2" style="margin-bottom:16px;">
+        <div class="form-group span2">
+          <label>Lote a tostar</label>
+          <select id="t-lote-sel" onchange="cargarLote(this.value)">
+            <option value="">— Seleccionar lote —</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="t-form" style="display:none;">
+        <div class="form-grid cols3" style="margin-bottom:16px;">
+          <div class="form-group">
+            <label>Código de lote</label>
+            <input type="text" id="t-codigo" class="highlight" readonly>
+          </div>
+          <div class="form-group">
+            <label>Origen</label>
+            <input type="text" id="t-origen" readonly>
+          </div>
+          <div class="form-group">
+            <label>Fecha de tostado</label>
+            <input type="date" id="t-fecha">
+          </div>
+        </div>
+
+        <div class="section-divider"><span>Pases del día — importar desde RoasTime</span></div>
+
+        <div class="upload-zone" onclick="document.getElementById('csv-file').click()"
+             ondragover="event.preventDefault();this.classList.add('drag')"
+             ondragleave="this.classList.remove('drag')"
+             ondrop="handleDrop(event,'csv')"
+             style="padding:20px;margin-bottom:12px;">
+          <div class="upload-icon" style="font-size:22px;">📊</div>
+          <div class="upload-text"><strong>Exporta el CSV de RoasTime</strong> y súbelo aquí, o sube un pantallazo<br><span style="font-size:11px;">RoasTime → Roasts → selecciona los pases del día → Export</span></div>
+        </div>
+        <input type="file" id="csv-file" accept=".csv,.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="file-hidden" onchange="processRoasTime(event)">
+
+        <div class="ai-box" id="ai-roastime">
+          <div class="ai-status"><div class="ai-spinner" id="spin-rt"></div><span id="txt-rt">Leyendo datos de RoasTime...</span></div>
+          <div class="ai-result" id="res-rt"></div>
+        </div>
+
+        <div id="pases-container" style="display:none;">
+          <div class="pases-list" id="pases-list"></div>
+          <div class="totales-box" id="totales-box">
+            <div class="total-item"><div class="total-label">Pases</div><div class="total-value" id="tot-pases">0</div></div>
+            <div class="total-item"><div class="total-label">Kg entrada</div><div class="total-value" id="tot-kgin">0.0</div></div>
+            <div class="total-item"><div class="total-label">Kg salida</div><div class="total-value" id="tot-kgout">0.0</div></div>
+            <div class="total-item"><div class="total-label">Merma</div><div class="total-value" id="tot-merma">0.0%</div></div>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="addPaseManual()" style="margin-bottom:16px;">+ Añadir pase manualmente</button>
+
+        <div id="pase-manual-form" style="display:none;">
+          <div class="form-grid cols4" style="margin-bottom:10px;">
+            <div class="form-group">
+              <label>Kg entrada</label>
+              <input type="number" id="pm-kgin" placeholder="0.850" step="0.001">
+            </div>
+            <div class="form-group">
+              <label>Kg salida</label>
+              <input type="number" id="pm-kgout" placeholder="0.717" step="0.001">
+            </div>
+            <div class="form-group">
+              <label>T.ª máx grano (°C)</label>
+              <input type="number" id="pm-temp" placeholder="206.7" step="0.1">
+            </div>
+            <div class="form-group">
+              <label>Tiempo total (min)</label>
+              <input type="text" id="pm-tiempo" placeholder="11:05">
+            </div>
+          </div>
+          <div class="btn-row" style="margin-top:0;justify-content:flex-start;">
+            <button class="btn btn-primary" onclick="guardarPaseManual()">Guardar pase</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('pase-manual-form').style.display='none'">Cancelar</button>
+          </div>
+        </div>
+
+        <div class="section-divider"><span>PCC-2 — Control de temperatura</span></div>
+        <div class="pcc-table">
+          <div class="pcc-head">
+            <div>PCC</div><div>Control</div><div>Límite crítico</div><div>Estado</div>
+          </div>
+          <div class="pcc-row" id="pcc2-row">
+            <div class="pcc-num">2</div>
+            <div class="pcc-desc">Temperatura máxima del grano en todos los pases</div>
+            <div class="pcc-limit">≥ 200 °C en todos los pases</div>
+            <div class="pcc-check" id="pcc2-estado"><span style="font-size:12px;color:rgba(26,14,8,0.3);">Pendiente</span></div>
+          </div>
+        </div>
+        <div class="alert alert-danger" id="alert-temp-nc"><span class="alert-icon">⚠</span><div><strong>PCC-2 NO CONFORME:</strong> Algún pase no alcanzó 200°C. Re-tostar o rechazar el lote afectado. Registrar la acción correctora.</div></div>
+
+        <div class="section-divider"><span>Control de calidad y empaquetado</span></div>
+        <div class="form-grid cols3">
+          <div class="form-group">
+            <label>Color Agtron / Colorette (promedio)</label>
+            <input type="text" id="t-color" placeholder="ej. 65">
+          </div>
+          <div class="form-group">
+            <label>Resultado cata</label>
+            <select id="t-cata">
+              <option value="">— —</option>
+              <option value="aprobado">✓ Aprobado</option>
+              <option value="retostado">Re-tostado necesario</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Notas de cata</label>
+            <input type="text" id="t-cata-obs" placeholder="Opcional">
+          </div>
+        </div>
+
+        <div class="section-divider"><span>PCC-3 — Empaquetado</span></div>
+        <div class="form-grid cols4">
+          <div class="form-group">
+            <label>N.º bolsas producidas</label>
+            <input type="number" id="t-bolsas" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label>Formato</label>
+            <select id="t-formato">
+              <option value="250">250 g</option>
+              <option value="500">500 g</option>
+              <option value="1000">1.000 g</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Presentación</label>
+            <select id="t-presentacion">
+              <option value="grano">Grano</option>
+              <option value="molido">Molido</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sellado verificado</label>
+            <select id="t-sellado" onchange="checkSellado()">
+              <option value="">— —</option>
+              <option value="ok">✓ Correcto</option>
+              <option value="nc">NC — bolsas defectuosas</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-danger" id="alert-sellado-nc"><span class="alert-icon">⚠</span><div><strong>PCC-3 NO CONFORME:</strong> Bolsas con sellado defectuoso. Destruir unidades afectadas y revisar la selladora.</div></div>
+
+        <div class="section-divider"><span>Acciones correctoras</span></div>
+        <div class="form-group">
+          <label>Incidencias y acciones correctoras (si algún PCC es NC)</label>
+          <textarea id="t-incidencias" placeholder="Describir incidencia y acción tomada..."></textarea>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="showView('recepcion',document.querySelectorAll('.nav-btn')[0])">← Volver</button>
+          <button class="btn btn-caramel" onclick="cerrarTostado()">Generar etiqueta →</button>
+        </div>
+      </div>
+
+      <div id="t-empty" class="empty-state">
+        <div class="empty-icon">☕</div>
+        <p>Crea un lote en el paso 1 o selecciona uno pendiente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PASO 3 — ETIQUETA
+══════════════════════════════════════ -->
+<div class="view" id="view-etiqueta">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Etiqueta secundaria del lote</span>
+      <span class="card-step">PASO 03 / 03</span>
+    </div>
+    <div class="card-body">
+      <div id="et-empty" class="empty-state">
+        <div class="empty-icon">🏷</div>
+        <p>Completa el tostado para generar la etiqueta automáticamente.</p>
+      </div>
+      <div id="et-content" style="display:none;">
+        <div class="etiqueta-wrap">
+          <div>
+            <div class="et-preview-label">Vista previa — 62 × 40 mm</div>
+            <div class="etiqueta">
+              <div class="et-brand">COTÉ CAFÉ ROASTERS</div>
+              <hr class="et-hr">
+              <div class="et-row"><span class="et-lbl">TOSTADO EL</span><span class="et-val" id="et-fecha"></span></div>
+              <div class="et-row"><span class="et-lbl">CONS. PREF.</span><span class="et-val" id="et-cons-legal"></span></div>
+              <div class="et-row"><span class="et-lbl">MEJOR ANTES</span><span class="et-val" id="et-cons-calidad"></span></div>
+              <div class="et-row"><span class="et-lbl">LOTE</span><span class="et-lote" id="et-lote"></span></div>
+              <hr class="et-hr">
+              <div class="et-cons">Consérvalo fresco, seco y sin luz directa.</div>
+              <div class="et-rec">Disfruta sus matices antes de la fecha recomendada.</div>
+              <div class="et-nutr">El valor energético y el contenido en nutrientes son insignificantes.</div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px;">
+            <div class="et-preview-label">Datos generados</div>
+            <div class="form-grid" style="gap:10px;">
+              <div class="form-group"><label>Código de lote</label><input type="text" id="et-f-lote" class="highlight" readonly></div>
+              <div class="form-group"><label>Fecha de tostado</label><input type="text" id="et-f-fecha" readonly></div>
+              <div class="form-group"><label>Consumir pref. antes de (legal)</label><input type="text" id="et-f-cons-legal" readonly></div>
+              <div class="form-group"><label>Mejor antes de (recomendación calidad)</label><input type="text" id="et-f-cons-calidad" readonly></div>
+              <div class="form-group"><label>Tamaño etiqueta</label><input type="text" id="et-f-size" readonly value="62 × 40 mm — Brother DK-22205"></div>
+              <div class="form-group"><label>Presentación</label><input type="text" id="et-f-presentacion" readonly></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="window.print()">🖨 Imprimir etiqueta — 62×40mm</button>
+          <button class="btn btn-success" onclick="finalizarLote()">✓ Lote completado — Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HISTORIAL
+══════════════════════════════════════ -->
+<div class="view" id="view-historial">
+
+  <div class="search-bar" style="margin-bottom:1.5rem;">
+    <input type="text" id="h-search" placeholder="Buscar por lote, origen, proveedor, factura..." oninput="renderHistorial()">
+  </div>
+
+  <!-- ENTRADAS — Café Verde -->
+  <div style="margin-bottom:2rem;">
+    <div class="section-divider" style="margin-top:0;margin-bottom:14px;">
+      <span>Entradas — Café Verde</span>
+    </div>
+    <div id="historial-entradas"></div>
+  </div>
+
+  <!-- SALIDAS — Lotes Tostados -->
+  <div>
+    <div class="section-divider" style="margin-bottom:10px;">
+      <span>Salidas — Lotes Tostados</span>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <select id="h-filter" onchange="renderHistorial()" style="width:200px;">
+        <option value="">Todos los estados</option>
+        <option value="completo">Completo</option>
+        <option value="pendiente">Pendiente tostado</option>
+        <option value="incidencia">Con incidencia</option>
+      </select>
+    </div>
+    <div id="historial-salidas"></div>
+  </div>
+
+</div>
+
+</main>
+
+<!-- MODAL DETALLE -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Detalle del lote</span>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ZONA DE IMPRESIÓN DESDE HISTORIAL (oculta en pantalla, visible solo al imprimir con body.printing-etiqueta) -->
+<div id="print-etiqueta-zone" style="display:none;">
+  <div class="etiqueta">
+    <div class="et-brand">COTÉ CAFÉ ROASTERS</div>
+    <hr class="et-hr">
+    <div class="et-row"><span class="et-lbl">TOSTADO EL</span><span class="et-val" id="pz-fecha"></span></div>
+    <div class="et-row"><span class="et-lbl">CONS. PREF.</span><span class="et-val" id="pz-cons-legal"></span></div>
+    <div class="et-row"><span class="et-lbl">MEJOR ANTES</span><span class="et-val" id="pz-cons-calidad"></span></div>
+    <div class="et-row"><span class="et-lbl">LOTE</span><span class="et-lote" id="pz-lote"></span></div>
+    <hr class="et-hr">
+    <div class="et-cons">Consérvalo fresco, seco y sin luz directa.</div>
+    <div class="et-rec">Disfruta sus matices antes de la fecha recomendada.</div>
+    <div class="et-nutr">El valor energético y el contenido en nutrientes son insignificantes.</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// ESTADO
+// ═══════════════════════════════════════
+let lotes = JSON.parse(localStorage.getItem('cote_lotes_v2') || '[]');
+let loteActivo = null;
+let pasesActivos = [];
+
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbygvkCJygtkpJ6ifTJThy6ls3ay0nuv6pXZBioF-LCpARc8dJW5qr_gz3KQehRPZV9b/exec";
+
+function save(loteParaSync) {
+  localStorage.setItem('cote_lotes_v2', JSON.stringify(lotes));
+  document.getElementById('badge-count').textContent = lotes.length;
+  if (loteParaSync) syncToSheets(loteParaSync);
+}
+
+async function syncToSheets(lote) {
+  const indicator = document.getElementById('sync-indicator');
+  if (indicator) { indicator.textContent = '↑ Guardando en Drive...'; indicator.style.color = 'rgba(200,132,58,0.7)'; }
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(lote)
+    });
+    if (indicator) { indicator.textContent = '✓ Guardado en Drive'; indicator.style.color = 'rgba(45,80,22,0.8)'; setTimeout(() => { indicator.textContent = ''; }, 3000); }
+  } catch(err) {
+    if (indicator) { indicator.textContent = '⚠ Sin conexión — guardado local'; indicator.style.color = 'rgba(146,96,10,0.8)'; setTimeout(() => { indicator.textContent = ''; }, 4000); }
+    console.error('Sheets sync error:', err);
+  }
+}
+
+// ═══════════════════════════════════════
+// NAVEGACIÓN
+// ═══════════════════════════════════════
+function showView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  const names = ['recepcion','tostado','etiqueta','historial'];
+  const idx = names.indexOf(name);
+  if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  if (name === 'historial') renderHistorial();
+  if (name === 'tostado') populateLoteSelector();
+}
+
+// ═══════════════════════════════════════
+// IA — PROCESAR IMAGEN / CSV
+// ═══════════════════════════════════════
+function handleDrop(e, tipo) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  if (tipo === 'saco') processImage({target:{files:[file]}}, 'saco');
+  if (tipo === 'csv') processRoasTime({target:{files:[file]}});
+}
+
+async function processImage(e, tipo) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const box = document.getElementById('ai-' + tipo);
+  const spin = document.getElementById('spin-' + (tipo === 'saco' ? 'saco' : 'rt'));
+  const txt = document.getElementById('txt-' + (tipo === 'saco' ? 'saco' : 'rt'));
+  const res = document.getElementById('res-' + (tipo === 'saco' ? 'saco' : 'rt'));
+  box.classList.add('visible');
+  spin.style.display = 'block';
+  txt.textContent = 'Analizando con IA...';
+  res.textContent = '';
+  try {
+    const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    const b64 = await toB64(file);
+    const prompt = tipo === 'saco'
+      ? 'Eres asistente de trazabilidad alimentaria. Analiza esta factura o etiqueta de saco de café verde y extrae en JSON estricto sin texto adicional ni backticks:\n{"proveedor":"","rgseaa":"","factura":"","fecha_factura":"YYYY-MM-DD","origen":"","region":"","variedad":"","productor":"","proceso":"","kg":"","lote_proveedor":""}. El origen es el país de cultivo del café. Si hay varios cafés en la misma factura extrae los datos del primero y pon los lotes separados por coma en lote_proveedor.'
+      : 'Eres asistente de trazabilidad de tostado de café. Analiza este pantallazo de RoasTime y extrae los datos de TODOS los perfiles visibles en JSON estricto sin texto adicional ni backticks:\n{"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}';
+
+    let content;
+    if (isPDF) {
+      content = [
+        { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
+        { type: 'text', text: prompt }
+      ];
+    } else {
+      content = [
+        { type: 'image', source: { type: 'base64', media_type: file.type, data: b64 } },
+        { type: 'text', text: prompt }
+      ];
+    }
+
+    const data = await callClaude([{ role: 'user', content }]);
+    const text = data.content?.map(c => c.text || '').join('') || '';
+    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    if (tipo === 'saco') fillRecepcion(parsed);
+    else fillPases(parsed.pases || []);
+    spin.style.display = 'none';
+    txt.textContent = '✓ Datos extraídos — revisa y corrige si es necesario';
+    res.textContent = tipo === 'saco'
+      ? Object.values(parsed).filter(v => v).length + ' campos detectados'
+      : (parsed.pases || []).length + ' pases detectados';
+  } catch(err) {
+    spin.style.display = 'none';
+    txt.textContent = 'No se pudo extraer automáticamente. Rellena manualmente.';
+    console.error(err);
+  }
+}
+
+async function processRoasTime(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.name.endsWith('.csv') || file.type === 'text/csv') {
+    await processCsvRoasTime(file);
+  } else {
+    await processImageRoasTime(file);
+  }
+}
+
+async function processImageRoasTime(file) {
+  const box = document.getElementById('ai-roastime');
+  const spin = document.getElementById('spin-rt');
+  const txt = document.getElementById('txt-rt');
+  const res = document.getElementById('res-rt');
+  box.classList.add('visible');
+  spin.style.display = 'block';
+  txt.textContent = 'Analizando imagen con IA...';
+  res.textContent = '';
+  try {
+    const b64 = await toB64(file);
+    const prompt = 'Eres asistente de trazabilidad de tostado de café. Analiza esta captura de pantalla o foto de RoasTime y extrae la temperatura máxima del grano (temp_max) del pase visible. Devuelve JSON estricto sin texto adicional ni backticks: {"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}. El campo temp_max es el dato más importante — es la temperatura máxima alcanzada por el grano en ese pase.';
+    const data = await callClaude([{ role: 'user', content: [
+      { type: 'image', source: { type: 'base64', media_type: file.type, data: b64 } },
+      { type: 'text', text: prompt }
+    ]}]);
+    const text = data.content?.map(c => c.text || '').join('') || '';
+    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    fillPases(parsed.pases || []);
+    spin.style.display = 'none';
+    txt.textContent = '✓ Imagen procesada — revisa y corrige si es necesario';
+    res.textContent = (parsed.pases || []).length + ' pases detectados';
+  } catch(err) {
+    spin.style.display = 'none';
+    txt.textContent = 'No se pudo extraer automáticamente. Añade los pases manualmente.';
+    console.error(err);
+  }
+}
+
+async function processCsvRoasTime(file) {
+  const box = document.getElementById('ai-roastime');
+  const spin = document.getElementById('spin-rt');
+  const txt = document.getElementById('txt-rt');
+  const res = document.getElementById('res-rt');
+  box.classList.add('visible');
+  spin.style.display = 'block';
+  txt.textContent = 'Procesando CSV de RoasTime...';
+  res.textContent = '';
+  try {
+    const text = await file.text();
+    const data = await callClaude([{role:'user',content:`Eres asistente de trazabilidad. Analiza este CSV exportado de RoasTime y extrae los datos de cada tostado en JSON estricto sin texto adicional ni backticks:\n{"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}\n\nCSV:\n${text.substring(0,3000)}`}]);
+    const rawText = data.content?.map(c=>c.text||'').join('') || '';
+    const parsed = JSON.parse(rawText.replace(/```json|```/g,'').trim());
+    fillPases(parsed.pases || []);
+    spin.style.display = 'none';
+    txt.textContent = '✓ CSV procesado correctamente';
+    res.textContent = (parsed.pases||[]).length + ' pases importados desde RoasTime';
+  } catch(err) {
+    spin.style.display = 'none';
+    txt.textContent = 'Error procesando CSV. Añade los pases manualmente.';
+    console.error(err);
+  }
+}
+
+async function callClaude(messages) {
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,messages})
+  });
+  return r.json();
+}
+
+function toB64(file) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ═══════════════════════════════════════
+// RELLENAR FORMULARIOS
+// ═══════════════════════════════════════
+function fillRecepcion(d) {
+  if (d.proveedor) document.getElementById('r-proveedor').value = d.proveedor;
+  if (d.rgseaa) document.getElementById('r-rgseaa').value = d.rgseaa;
+  if (d.factura) document.getElementById('r-factura').value = d.factura;
+  if (d.fecha_factura) document.getElementById('r-fecha-factura').value = d.fecha_factura;
+  if (d.origen) document.getElementById('r-origen').value = d.origen;
+  if (d.region) document.getElementById('r-region').value = d.region;
+  if (d.variedad) document.getElementById('r-variedad').value = d.variedad;
+  if (d.productor) document.getElementById('r-productor').value = d.productor;
+  if (d.proceso) document.getElementById('r-proceso').value = d.proceso;
+  if (d.kg) document.getElementById('r-kg').value = d.kg;
+  if (d.lote_proveedor) document.getElementById('r-lote-proveedor').value = d.lote_proveedor;
+}
+
+function fillPases(pases) {
+  pases.forEach(p => {
+    pasesActivos.push({
+      kg_in: parseFloat(p.kg_in) || 0,
+      kg_out: parseFloat(p.kg_out) || 0,
+      temp_max: parseFloat(p.temp_max) || 0,
+      tiempo: p.tiempo || '',
+      nombre: p.nombre || ''
+    });
+  });
+  renderPases();
+}
+
+// ═══════════════════════════════════════
+// PASES
+// ═══════════════════════════════════════
+function renderPases() {
+  const list = document.getElementById('pases-list');
+  const container = document.getElementById('pases-container');
+  if (!pasesActivos.length) { container.style.display = 'none'; return; }
+  container.style.display = 'block';
+
+  list.innerHTML = pasesActivos.map((p, i) => {
+    const ok = p.temp_max >= 200;
+    return `<div class="pase-item">
+      <span class="pase-num">Pase ${i+1}</span>
+      <span class="pase-datos">${p.kg_in ? p.kg_in.toFixed(3) + ' kg → ' + p.kg_out.toFixed(3) + ' kg' : '—'}${p.tiempo ? '  ·  ' + p.tiempo + ' min' : ''}</span>
+      <span class="pase-temp ${ok ? 'ok':'nc'}">${p.temp_max ? p.temp_max.toFixed(1) + '°C' : '—'} ${ok ? '✓':'⚠'}</span>
+      <button class="pase-del" onclick="deletePase(${i})">×</button>
+    </div>`;
+  }).join('');
+
+  const totKgin  = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_in)  || 0), 0);
+  const totKgout = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_out) || 0), 0);
+  const merma = totKgin > 0 ? ((totKgin - totKgout) / totKgin * 100).toFixed(1) : '0.0';
+  document.getElementById('tot-pases').textContent  = pasesActivos.length;
+  document.getElementById('tot-kgin').textContent   = totKgin.toFixed(3)  + ' kg';
+  document.getElementById('tot-kgout').textContent  = totKgout.toFixed(3) + ' kg';
+  document.getElementById('tot-merma').textContent = merma + '%';
+
+  const allOk = pasesActivos.every(p => p.temp_max >= 200);
+  const anyData = pasesActivos.some(p => p.temp_max > 0);
+  const pcc2 = document.getElementById('pcc2-estado');
+  if (anyData) {
+    pcc2.innerHTML = allOk
+      ? '<span style="color:var(--green);font-size:13px;font-weight:500;">✓ Conforme</span>'
+      : '<span style="color:var(--red);font-size:13px;font-weight:500;">✗ NC</span>';
+    document.getElementById('alert-temp-nc').classList.toggle('visible', !allOk);
+  }
+}
+
+function deletePase(i) {
+  pasesActivos.splice(i, 1);
+  renderPases();
+}
+
+function addPaseManual() {
+  document.getElementById('pase-manual-form').style.display = 'block';
+}
+
+function guardarPaseManual() {
+  const kgin = parseFloat(document.getElementById('pm-kgin').value) || 0;
+  const kgout = parseFloat(document.getElementById('pm-kgout').value) || 0;
+  const temp = parseFloat(document.getElementById('pm-temp').value) || 0;
+  const tiempo = document.getElementById('pm-tiempo').value;
+  if (!kgin && !temp) { alert('Introduce al menos el peso de entrada y la temperatura máxima.'); return; }
+  pasesActivos.push({ kg_in: kgin, kg_out: kgout, temp_max: temp, tiempo });
+  ['pm-kgin','pm-kgout','pm-temp','pm-tiempo'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('pase-manual-form').style.display = 'none';
+  renderPases();
+}
+
+// ═══════════════════════════════════════
+// VALIDACIONES
+// ═══════════════════════════════════════
+function checkOTA() {
+  const val = parseFloat(document.getElementById('r-ota').value);
+  const cert = document.getElementById('r-ota-cert').value;
+  document.getElementById('alert-ota-alto').classList.toggle('visible', val >= 5);
+  document.getElementById('alert-ota-falta').classList.toggle('visible', !val && cert === 'no');
+}
+function checkInspeccion() {
+  const v = document.getElementById('r-inspeccion').value;
+  document.getElementById('alert-inspeccion').classList.toggle('visible', v && v !== 'ok');
+}
+function checkSellado() {
+  document.getElementById('alert-sellado-nc').classList.toggle('visible',
+    document.getElementById('t-sellado').value === 'nc');
+}
+
+// ═══════════════════════════════════════
+// CREAR LOTE
+// ═══════════════════════════════════════
+function genCodigo(fechaFactura, origen) {
+  const d = fechaFactura ? new Date(fechaFactura) : new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const orig = (origen||'XX').toUpperCase().replace(/\s+/g,'').substring(0,3);
+  return `COTE-${yyyy}-${mm}-${dd}-${orig}`;
+}
+
+function crearLote() {
+  const proveedor = document.getElementById('r-proveedor').value.trim();
+  const origen = document.getElementById('r-origen').value.trim();
+  const factura = document.getElementById('r-factura').value.trim();
+  if (!proveedor || !origen || !factura) { alert('Rellena como mínimo: Proveedor, N.º Factura y País de origen.'); return; }
+  const ota = parseFloat(document.getElementById('r-ota').value);
+  if (ota >= 5) { if (!confirm('⚠ OTA supera el límite legal. ¿Registrar igualmente para documentar la incidencia?')) return; }
+
+  const codigo = genCodigo(document.getElementById('r-fecha-factura').value, origen);
+  const lote = {
+    id: Date.now(),
+    codigo,
+    estado: 'pendiente',
+    recepcion: {
+      proveedor,
+      rgseaa: document.getElementById('r-rgseaa').value,
+      factura,
+      fecha_factura: document.getElementById('r-fecha-factura').value,
+      origen,
+      region: document.getElementById('r-region').value,
+      variedad: document.getElementById('r-variedad').value,
+      productor: document.getElementById('r-productor').value,
+      proceso: document.getElementById('r-proceso').value,
+      kg: document.getElementById('r-kg').value,
+      lote_proveedor: document.getElementById('r-lote-proveedor').value,
+      ota: document.getElementById('r-ota').value,
+      ota_cert: document.getElementById('r-ota-cert').value,
+      inspeccion: document.getElementById('r-inspeccion').value,
+      obs: document.getElementById('r-obs').value,
+    },
+    tostado: null,
+    etiqueta: null,
+    creado: new Date().toISOString()
+  };
+  lotes.unshift(lote);
+  save(lote);
+  loteActivo = lote;
+  pasesActivos = [];
+  limpiarRecepcion();
+  populateLoteSelector();
+  cargarLote(lote.id);
+  showView('tostado', null);
+  document.querySelectorAll('.nav-btn')[1].classList.add('active');
+  document.querySelectorAll('.nav-btn')[0].classList.remove('active');
+}
+
+function limpiarRecepcion() {
+  ['r-proveedor','r-rgseaa','r-factura','r-fecha-factura','r-origen','r-region',
+   'r-variedad','r-productor','r-proceso','r-kg','r-lote-proveedor','r-ota','r-obs']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('r-ota-cert').value = '';
+  document.getElementById('r-inspeccion').value = '';
+  document.getElementById('ai-saco').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════
+// TOSTADO
+// ═══════════════════════════════════════
+function populateLoteSelector() {
+  const sel = document.getElementById('t-lote-sel');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">— Seleccionar lote —</option>';
+  lotes
+    .filter(l => {
+      const { stockCls } = calcStockLote(l);
+      return stockCls === 'pendiente' || stockCls === 'parcial';
+    })
+    .forEach(l => {
+      const { stockTxt, kgPend } = calcStockLote(l);
+      const o = document.createElement('option');
+      o.value = l.id;
+      o.textContent = `${l.codigo} — ${l.recepcion.origen} — ${l.recepcion.proveedor}`
+                    + (stockTxt === 'Parcialmente tostado' ? ` [Parcial · ${kgPend.toFixed(3)} kg pend.]` : '');
+      sel.appendChild(o);
+    });
+  if (loteActivo) { sel.value = loteActivo.id; cargarLote(loteActivo.id); }
+  else if (prev) sel.value = prev;
+}
+
+function cargarLote(id) {
+  const form = document.getElementById('t-form');
+  const empty = document.getElementById('t-empty');
+  if (!id) { form.style.display = 'none'; empty.style.display = 'block'; return; }
+  const lote = lotes.find(l => l.id == id);
+  if (!lote) return;
+  loteActivo = lote;
+  form.style.display = 'block';
+  empty.style.display = 'none';
+  document.getElementById('t-codigo').value = lote.codigo;
+  document.getElementById('t-origen').value = `${lote.recepcion.origen}${lote.recepcion.region ? ' — ' + lote.recepcion.region : ''}`;
+  document.getElementById('t-fecha').value = new Date().toISOString().split('T')[0];
+}
+
+function cerrarTostado() {
+  if (!loteActivo) return;
+  const fecha = document.getElementById('t-fecha').value;
+  const cata = document.getElementById('t-cata').value;
+  const sellado = document.getElementById('t-sellado').value;
+  if (!fecha || !cata || !sellado) { alert('Rellena como mínimo: Fecha de tostado, Resultado cata y Sellado.'); return; }
+  if (!pasesActivos.length) { alert('Añade al menos un pase de tostado.'); return; }
+
+  const allTempOk = pasesActivos.every(p => p.temp_max >= 200);
+  const hayNC = !allTempOk || sellado === 'nc' || cata === 'rechazado';
+
+  const totKgin  = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_in)  || 0), 0);
+  const totKgout = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_out) || 0), 0);
+
+  loteActivo.tostado = {
+    fecha,
+    pases: [...pasesActivos],
+    total_kg_in: totKgin.toFixed(3),
+    total_kg_out: totKgout.toFixed(3),
+    merma: totKgin > 0 ? ((totKgin-totKgout)/totKgin*100).toFixed(1)+'%' : '—',
+    color: document.getElementById('t-color').value,
+    cata,
+    cata_obs: document.getElementById('t-cata-obs').value,
+    bolsas: document.getElementById('t-bolsas').value,
+    formato: document.getElementById('t-formato').value,
+    presentacion: document.getElementById('t-presentacion').value,
+    sellado,
+    incidencias: document.getElementById('t-incidencias').value,
+    pcc_conforme: !hayNC
+  };
+  loteActivo.estado = hayNC ? 'incidencia' : 'en-etiquetado';
+  save(loteActivo);
+  generarEtiqueta(loteActivo);
+  showView('etiqueta', null);
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn')[2].classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// ETIQUETA
+// ═══════════════════════════════════════
+function generarEtiqueta(lote) {
+  if (!lote?.tostado) return;
+  const t = lote.tostado;
+  const d = new Date(t.fecha);
+  const presentacion = t.presentacion;
+
+  const fmt = dt => `${String(dt.getDate()).padStart(2,'0')} / ${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
+  const fmtMes = dt => `${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
+
+  const consLegal = new Date(d); consLegal.setMonth(consLegal.getMonth() + (presentacion === 'molido' ? 9 : 12));
+  const consCalidad = new Date(d); consCalidad.setMonth(consCalidad.getMonth() + (presentacion === 'molido' ? 4 : 6));
+
+  const fechaStr = fmt(d);
+  const consLegalStr = fmtMes(consLegal);
+  const consCalidadStr = fmtMes(consCalidad);
+  const loteStr = 'L: ' + lote.codigo;
+  const presStr = presentacion === 'molido' ? 'Molido' : 'En grano';
+
+  document.getElementById('et-fecha').textContent = fechaStr;
+  document.getElementById('et-cons-legal').textContent = consLegalStr;
+  document.getElementById('et-cons-calidad').textContent = consCalidadStr;
+  document.getElementById('et-lote').textContent = loteStr;
+  document.getElementById('et-f-lote').value = loteStr;
+  document.getElementById('et-f-fecha').value = fechaStr;
+  document.getElementById('et-f-cons-legal').value = consLegalStr;
+  document.getElementById('et-f-cons-calidad').value = consCalidadStr;
+  document.getElementById('et-f-presentacion').value = presStr;
+
+  lote.etiqueta = { fecha: fechaStr, cons_legal: consLegalStr, cons_calidad: consCalidadStr, lote_code: loteStr, presentacion: presStr };
+  save(lote);
+
+  document.getElementById('et-empty').style.display = 'none';
+  document.getElementById('et-content').style.display = 'block';
+}
+
+function finalizarLote() {
+  if (!loteActivo) return;
+  loteActivo.estado = loteActivo.tostado?.pcc_conforme ? 'completo' : 'incidencia';
+  save(loteActivo);
+  loteActivo = null;
+  pasesActivos = [];
+
+  ['t-color','t-cata-obs','t-bolsas','t-incidencias'].forEach(id => { document.getElementById(id).value = ''; });
+  ['t-cata','t-sellado'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('t-formato').value = '250';
+  document.getElementById('t-presentacion').value = 'grano';
+  document.getElementById('pases-container').style.display = 'none';
+  document.getElementById('pases-list').innerHTML = '';
+  document.getElementById('t-form').style.display = 'none';
+  document.getElementById('t-empty').style.display = 'block';
+  document.getElementById('t-lote-sel').value = '';
+  document.getElementById('et-empty').style.display = 'block';
+  document.getElementById('et-content').style.display = 'none';
+  document.getElementById('ai-roastime').classList.remove('visible');
+  document.getElementById('pcc2-estado').innerHTML = '<span style="font-size:12px;color:rgba(26,14,8,0.3);">Pendiente</span>';
+
+  showView('historial', null);
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn')[3].classList.add('active');
+}
+
+// ═══════════════════════════════════════
+// STOCK — helper por lote
+// ═══════════════════════════════════════
+function calcStockLote(lote) {
+  const kgRec = parseFloat(lote.recepcion.kg) || 0;
+  // Suma de kg verde usados en todos los tostados que comparten el mismo código de lote
+  const kgTostado = lotes
+    .filter(l => l.codigo === lote.codigo && l.tostado)
+    .reduce((s, l) => s + (parseFloat(l.tostado.total_kg_in) || 0), 0);
+  const kgPend = Math.max(0, kgRec - kgTostado);
+
+  let stockCls, stockTxt;
+  if (kgRec === 0) {
+    // Sin kg registrados: usar estado del lote como fallback
+    stockCls = lote.tostado ? 'completo' : 'pendiente';
+    stockTxt = lote.tostado ? 'Tostado completo' : 'Pendiente tostado';
+  } else if (kgTostado === 0) {
+    stockCls = 'pendiente'; stockTxt = 'Pendiente tostado';
+  } else if (kgTostado >= kgRec) {
+    stockCls = 'completo';  stockTxt = 'Tostado completo';
+  } else {
+    stockCls = 'parcial';   stockTxt = 'Parcialmente tostado';
+  }
+  return { kgRec, kgTostado, kgPend, stockCls, stockTxt };
+}
+
+// ═══════════════════════════════════════
+// HISTORIAL
+// ═══════════════════════════════════════
+function renderHistorial() {
+  const q = document.getElementById('h-search').value.toLowerCase();
+  const f = document.getElementById('h-filter').value;
+
+  // ── ENTRADAS — Café Verde ──
+  const entradas = lotes.filter(l => {
+    const txt = [l.codigo, l.recepcion.proveedor, l.recepcion.origen,
+                 l.recepcion.variedad||'', l.recepcion.factura||'',
+                 l.recepcion.productor||''].join(' ').toLowerCase();
+    return !q || txt.includes(q);
+  });
+
+  const contEntradas = document.getElementById('historial-entradas');
+  if (!entradas.length) {
+    contEntradas.innerHTML = `<div class="empty-state" style="padding:30px 20px;">
+      <div class="empty-icon" style="font-size:28px;">📦</div>
+      <p>${lotes.length === 0 ? 'Aún no hay recepciones. Empieza en el Paso 1.' : 'No hay entradas con ese filtro.'}</p>
+    </div>`;
+  } else {
+    contEntradas.innerHTML = entradas.map(l => {
+      const r = l.recepcion;
+      const fecha = new Date(l.creado).toLocaleDateString('es-ES');
+      const { kgRec, kgTostado, kgPend, stockCls, stockTxt } = calcStockLote(l);
+      const otaNc    = r.ota && parseFloat(r.ota) >= 5;
+      const inspecNc = r.inspeccion && r.inspeccion !== 'ok';
+
+      // Línea de stock (solo si hay kg registrados)
+      const stockLine = kgRec > 0
+        ? `<div class="kg-stock">
+            Recibido: <strong>${kgRec.toFixed(3)} kg</strong>
+            &nbsp;·&nbsp; Tostado: <strong>${kgTostado.toFixed(3)} kg</strong>
+            &nbsp;·&nbsp; Pendiente: <strong>${kgPend.toFixed(3)} kg</strong>
+           </div>`
+        : '';
+
+      return `<div class="lote-card" onclick="openModal(${l.id})">
+        <div style="flex:1;min-width:0;">
+          <div class="lote-code">${l.codigo}</div>
+          <div class="lote-meta">${r.proveedor} · ${r.origen}${r.region ? ' — '+r.region : ''}${r.variedad ? ' · '+r.variedad : ''} · ${fecha}</div>
+          ${stockLine}
+        </div>
+        <div class="lote-right" style="flex-shrink:0;">
+          <span class="status ${stockCls}">${stockTxt}</span>
+          ${otaNc || inspecNc ? `<span class="status incidencia">Incidencia</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── SALIDAS — Lotes Tostados ──
+  const salidas = lotes.filter(l => {
+    if (!l.tostado) return false;
+    const txt = [l.codigo, l.recepcion.origen, l.recepcion.proveedor,
+                 l.recepcion.variedad||'', l.recepcion.factura||''].join(' ').toLowerCase();
+    const matchTxt = !q || txt.includes(q);
+    const matchF   = !f || l.estado === f ||
+                     (f === 'pendiente' && (l.estado === 'pendiente' || l.estado === 'en-etiquetado'));
+    return matchTxt && matchF;
+  });
+
+  const contSalidas = document.getElementById('historial-salidas');
+  const totalTostados = lotes.filter(l => l.tostado).length;
+  if (!salidas.length) {
+    contSalidas.innerHTML = `<div class="empty-state" style="padding:30px 20px;">
+      <div class="empty-icon" style="font-size:28px;">☕</div>
+      <p>${totalTostados === 0 ? 'Aún no hay lotes tostados.' : 'No hay salidas con esos filtros.'}</p>
+    </div>`;
+  } else {
+    const estadoMap = {
+      completo:        ['completo',  'Completo'],
+      pendiente:       ['pendiente', 'Pendiente etiqueta'],
+      'en-etiquetado': ['pendiente', 'Pendiente etiqueta'],
+      incidencia:      ['incidencia','Con incidencia']
+    };
+    contSalidas.innerHTML = salidas.map(l => {
+      const [cls, txt] = estadoMap[l.estado] || ['pendiente', l.estado];
+      const t     = l.tostado;
+      const pases = t.pases?.length || 0;
+      const kgIn  = parseFloat(t.total_kg_in)  || 0;
+      const kgOut = parseFloat(t.total_kg_out) || 0;
+      return `<div class="lote-card" onclick="openModal(${l.id})">
+        <div style="flex:1;min-width:0;">
+          <div class="lote-code">${l.codigo}</div>
+          <div class="lote-meta">${l.recepcion.origen}${l.recepcion.variedad ? ' · '+l.recepcion.variedad : ''} · ${t.fecha}</div>
+          <div class="kg-stock">
+            Verde entrada: <strong>${kgIn.toFixed(3)} kg</strong>
+            &nbsp;→&nbsp; Tostado obtenido: <strong>${kgOut.toFixed(3)} kg</strong>
+            &nbsp;·&nbsp; Merma: <strong>${t.merma}</strong>
+          </div>
+        </div>
+        <div class="lote-right" style="flex-shrink:0;">
+          ${pases ? `<span class="lote-pases">${pases} pase${pases>1?'s':''}</span>` : ''}
+          ${l.etiqueta ? `<button class="btn btn-secondary" style="padding:4px 10px;font-size:11px;" onclick="event.stopPropagation();imprimirEtiquetaDesdeHistorial(${l.id})">🖨 Etiqueta</button>` : ''}
+          <span class="status ${cls}">${txt}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ═══════════════════════════════════════
+// MODAL DETALLE
+// ═══════════════════════════════════════
+function openModal(id) {
+  const lote = lotes.find(l => l.id === id);
+  if (!lote) return;
+  document.getElementById('modal-title').textContent = lote.codigo;
+  const r = lote.recepcion;
+  const t = lote.tostado;
+  const e = lote.etiqueta;
+
+  let html = '';
+
+  html += `<div class="detail-section">
+    <div class="detail-title" style="display:flex;justify-content:space-between;align-items:center;">
+      Recepción
+      <button class="btn btn-secondary" style="padding:4px 12px;font-size:11px;" onclick="editLote(${id})">✏ Editar</button>
+    </div>
+    <div class="detail-grid">
+      <span class="detail-key">Proveedor</span><span class="detail-val">${r.proveedor}</span>
+      <span class="detail-key">Factura</span><span class="detail-val">${r.factura}</span>
+      <span class="detail-key">Fecha factura</span><span class="detail-val">${r.fecha_factura||'—'}</span>
+      <span class="detail-key">Origen</span><span class="detail-val">${r.origen}${r.region ? ' — ' + r.region : ''}</span>
+      <span class="detail-key">Variedad</span><span class="detail-val">${r.variedad||'—'}</span>
+      <span class="detail-key">Productor</span><span class="detail-val">${r.productor||'—'}</span>
+      <span class="detail-key">Proceso</span><span class="detail-val">${r.proceso||'—'}</span>
+      <span class="detail-key">Kg recibidos</span><span class="detail-val">${r.kg||'—'}</span>
+      <span class="detail-key">Lote proveedor</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:12px;">${r.lote_proveedor||'—'}</span>
+      <span class="detail-key">RGSEAA proveedor</span><span class="detail-val">${r.rgseaa||'—'}</span>
+      <span class="detail-key">OTA</span><span class="detail-val">${r.ota ? r.ota + ' µg/kg' : '—'} · Cert: ${r.ota_cert||'—'}</span>
+      <span class="detail-key">Inspección</span><span class="detail-val">${r.inspeccion||'—'}</span>
+      <span class="detail-key">Observaciones</span><span class="detail-val">${r.obs||'—'}</span>
+    </div>
+  </div>`;
+
+  if (t) {
+    const pcc = t.pcc_conforme;
+    html += `<div class="detail-section">
+      <div class="detail-title">Tostado — ${t.pases?.length||0} pases</div>
+      <div class="detail-grid">
+        <span class="detail-key">Fecha</span><span class="detail-val">${t.fecha}</span>
+        <span class="detail-key">PCC</span><span class="detail-val" style="color:${pcc?'var(--green)':'var(--red)'};font-weight:500;">${pcc?'✓ Conforme':'✗ No conforme'}</span>
+        <span class="detail-key">Kg entrada total</span><span class="detail-val">${t.total_kg_in} kg</span>
+        <span class="detail-key">Kg salida total</span><span class="detail-val">${t.total_kg_out} kg</span>
+        <span class="detail-key">Merma</span><span class="detail-val">${t.merma}</span>
+        <span class="detail-key">Cata</span><span class="detail-val">${t.cata}</span>
+        <span class="detail-key">Presentación</span><span class="detail-val">${t.presentacion} · ${t.formato}g · ${t.bolsas||'—'} bolsas</span>
+        <span class="detail-key">Sellado</span><span class="detail-val">${t.sellado}</span>
+      </div>
+      ${t.pases?.length ? `<div style="margin-top:10px;"><div style="font-size:11px;color:rgba(26,14,8,0.4);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Pases</div>${t.pases.map((p,i)=>`<div style="font-size:12px;font-family:'DM Mono',monospace;color:rgba(26,14,8,0.6);margin-bottom:3px;">Pase ${i+1}: ${p.kg_in}→${p.kg_out}kg · ${p.temp_max}°C · ${p.tiempo}</div>`).join('')}</div>` : ''}
+      ${t.incidencias ? `<div style="margin-top:8px;font-size:12px;background:var(--red-bg);color:var(--red);padding:8px 10px;border-radius:6px;">${t.incidencias}</div>` : ''}
+    </div>`;
+  }
+
+  if (e) {
+    html += `<div class="detail-section">
+      <div class="detail-title">Etiqueta generada</div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:rgba(26,14,8,0.6);line-height:1.8;">
+        ${e.lote_code}<br>Tostado: ${e.fecha}<br>Cons. pref. (legal): ${e.cons_legal}<br>Mejor antes (calidad): ${e.cons_calidad}<br>${e.presentacion}
+      </div>
+    </div>`;
+  }
+
+  html += `<div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
+    <button class="btn btn-danger" onclick="deleteLote(${id})">Eliminar</button>
+    ${t ? `<button class="btn btn-secondary" onclick="imprimirEtiquetaDesdeHistorial(${id})">🖨 Imprimir etiqueta</button>` : ''}
+    <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
+  </div>`;
+
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+
+function editLote(id) {
+  const lote = lotes.find(l => l.id === id);
+  if (!lote) return;
+  const r = lote.recepcion;
+
+  document.getElementById('modal-title').textContent = 'Editar — ' + lote.codigo;
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-grid cols2" style="gap:12px;margin-bottom:16px;">
+      <div class="form-group"><label>Proveedor</label><input type="text" id="e-proveedor" value="${r.proveedor||''}"></div>
+      <div class="form-group"><label>RGSEAA del distribuidor</label><input type="text" id="e-rgseaa" value="${r.rgseaa||''}"></div>
+      <div class="form-group"><label>N.º Factura</label><input type="text" id="e-factura" value="${r.factura||''}"></div>
+      <div class="form-group"><label>Fecha de factura</label><input type="date" id="e-fecha-factura" value="${r.fecha_factura||''}"></div>
+      <div class="form-group"><label>País de origen</label><input type="text" id="e-origen" value="${r.origen||''}"></div>
+      <div class="form-group"><label>Región</label><input type="text" id="e-region" value="${r.region||''}"></div>
+      <div class="form-group"><label>Variedad</label><input type="text" id="e-variedad" value="${r.variedad||''}"></div>
+      <div class="form-group"><label>Productor / Finca</label><input type="text" id="e-productor" value="${r.productor||''}"></div>
+      <div class="form-group"><label>Proceso</label><input type="text" id="e-proceso" value="${r.proceso||''}"></div>
+      <div class="form-group"><label>Kg recibidos</label><input type="number" id="e-kg" value="${r.kg||''}" step="0.1"></div>
+      <div class="form-group"><label>Lote del proveedor</label><input type="text" id="e-lote-proveedor" value="${r.lote_proveedor||''}"></div>
+      <div class="form-group"><label>OTA (µg/kg)</label><input type="number" id="e-ota" value="${r.ota||''}" step="0.1"></div>
+      <div class="form-group"><label>Certificado OTA</label>
+        <select id="e-ota-cert">
+          <option value="">— —</option>
+          <option value="si" ${r.ota_cert==='si'?'selected':''}>Sí — adjunto</option>
+          <option value="solicitado" ${r.ota_cert==='solicitado'?'selected':''}>Solicitado</option>
+          <option value="no" ${r.ota_cert==='no'?'selected':''}>No disponible</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Inspección visual</label>
+        <select id="e-inspeccion">
+          <option value="">— —</option>
+          <option value="ok" ${r.inspeccion==='ok'?'selected':''}>✓ Sin anomalías</option>
+          <option value="humedad" ${r.inspeccion==='humedad'?'selected':''}>Humedad</option>
+          <option value="plagas" ${r.inspeccion==='plagas'?'selected':''}>Plagas</option>
+          <option value="olor" ${r.inspeccion==='olor'?'selected':''}>Olores anómalos</option>
+          <option value="dano" ${r.inspeccion==='dano'?'selected':''}>Daño físico</option>
+        </select>
+      </div>
+      <div class="form-group span2"><label>Observaciones</label><input type="text" id="e-obs" value="${r.obs||''}"></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
+      <button class="btn btn-secondary" onclick="openModal(${id})">Cancelar</button>
+      <button class="btn btn-caramel" onclick="guardarEdicion(${id})">Guardar cambios</button>
+    </div>`;
+}
+
+function guardarEdicion(id) {
+  const lote = lotes.find(l => l.id === id);
+  if (!lote) return;
+  lote.recepcion.proveedor = document.getElementById('e-proveedor').value;
+  lote.recepcion.rgseaa = document.getElementById('e-rgseaa').value;
+  lote.recepcion.factura = document.getElementById('e-factura').value;
+  lote.recepcion.fecha_factura = document.getElementById('e-fecha-factura').value;
+  lote.recepcion.origen = document.getElementById('e-origen').value;
+  lote.recepcion.region = document.getElementById('e-region').value;
+  lote.recepcion.variedad = document.getElementById('e-variedad').value;
+  lote.recepcion.productor = document.getElementById('e-productor').value;
+  lote.recepcion.proceso = document.getElementById('e-proceso').value;
+  lote.recepcion.kg = document.getElementById('e-kg').value;
+  lote.recepcion.lote_proveedor = document.getElementById('e-lote-proveedor').value;
+  lote.recepcion.ota = document.getElementById('e-ota').value;
+  lote.recepcion.ota_cert = document.getElementById('e-ota-cert').value;
+  lote.recepcion.inspeccion = document.getElementById('e-inspeccion').value;
+  lote.recepcion.obs = document.getElementById('e-obs').value;
+  save(lote);
+  openModal(id);
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function deleteLote(id) {
+  if (!confirm('¿Eliminar este lote? No se puede deshacer.')) return;
+  lotes = lotes.filter(l => l.id !== id);
+  save(); closeModal(); renderHistorial();
+}
+
+// ═══════════════════════════════════════
+// BACKUP
+// ═══════════════════════════════════════
+function exportBackup() {
+  const blob = new Blob([JSON.stringify({exportado:new Date().toISOString(),total:lotes.length,lotes},null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `CoteCafe_Backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+}
+
+function importBackup() { document.getElementById('import-file').click(); }
+
+function handleImport(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data.lotes) { alert('Archivo no válido.'); return; }
+      if (!confirm(`Importar ${data.lotes.length} lotes del backup del ${new Date(data.exportado).toLocaleDateString('es-ES')}? Los lotes actuales se mantendrán.`)) return;
+      const ids = new Set(lotes.map(l => l.id));
+      data.lotes.forEach(l => { if (!ids.has(l.id)) lotes.push(l); });
+      save(); renderHistorial();
+      alert('Backup importado correctamente.');
+    } catch { alert('Error al leer el archivo.'); }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+}
+
+// ═══════════════════════════════════════
+// IMPRIMIR ETIQUETA DESDE HISTORIAL
+// ═══════════════════════════════════════
+function imprimirEtiquetaDesdeHistorial(id) {
+  const lote = lotes.find(l => l.id === id);
+  if (!lote?.tostado) return;
+  const t = lote.tostado;
+  const d = new Date(t.fecha);
+  const presentacion = t.presentacion;
+
+  const fmt = dt => `${String(dt.getDate()).padStart(2,'0')} / ${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
+  const fmtMes = dt => `${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
+
+  const consLegal = new Date(d); consLegal.setMonth(consLegal.getMonth() + (presentacion === 'molido' ? 9 : 12));
+  const consCalidad = new Date(d); consCalidad.setMonth(consCalidad.getMonth() + (presentacion === 'molido' ? 4 : 6));
+
+  document.getElementById('pz-fecha').textContent = fmt(d);
+  document.getElementById('pz-cons-legal').textContent = fmtMes(consLegal);
+  document.getElementById('pz-cons-calidad').textContent = fmtMes(consCalidad);
+  document.getElementById('pz-lote').textContent = 'L: ' + lote.codigo;
+
+  document.body.classList.add('printing-etiqueta');
+  window.print();
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('printing-etiqueta');
+  }, { once: true });
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+document.getElementById('badge-count').textContent = lotes.length;
+document.getElementById('t-fecha').value = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
