@@ -175,6 +175,22 @@ textarea { resize: vertical; min-height: 60px; }
 .detail-key { color: rgba(26,14,8,0.45); }
 .detail-val { color: var(--espresso); font-weight: 400; }
 
+/* API KEY SETUP */
+.apikey-overlay { position: fixed; inset: 0; background: rgba(26,14,8,0.85); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.apikey-overlay.open { display: flex; }
+.apikey-box { background: white; border-radius: 14px; width: 100%; max-width: 480px; overflow: hidden; box-shadow: 0 24px 64px rgba(26,14,8,0.4); }
+.apikey-head { background: var(--espresso); padding: 18px 24px; }
+.apikey-head h2 { font-family: 'DM Serif Display', serif; color: var(--caramel); font-size: 17px; margin-bottom: 4px; }
+.apikey-head p { font-size: 11px; color: rgba(200,132,58,0.55); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+.apikey-body { padding: 24px; }
+.apikey-body p { font-size: 13px; color: rgba(26,14,8,0.6); margin-bottom: 16px; line-height: 1.6; }
+.apikey-input-wrap { display: flex; gap: 8px; margin-bottom: 10px; }
+.apikey-input-wrap input { flex: 1; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.03em; }
+.apikey-hint { font-size: 11px; color: rgba(26,14,8,0.4); line-height: 1.5; }
+.apikey-hint a { color: var(--caramel); }
+.apikey-error { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+.apikey-error.visible { display: block; }
+
 @media print {
   /* Ocultar todo por defecto */
   body > * { display: none !important; }
@@ -273,11 +289,38 @@ textarea { resize: vertical; min-height: 60px; }
   </div>
   <div class="header-actions">
     <span id="sync-indicator" style="font-size:11px;font-family:'DM Mono',monospace;padding:0 10px;"></span>
+    <button class="header-btn" onclick="openApiKeyModal()" id="apikey-header-btn" title="Configurar API key de Anthropic">⚙ API Key</button>
     <button class="header-btn" onclick="importBackup()">⬆ Importar backup</button>
     <button class="header-btn" onclick="exportBackup()">⬇ Exportar backup</button>
     <input type="file" id="import-file" accept=".json" class="file-hidden" onchange="handleImport(event)">
   </div>
 </header>
+
+<!-- MODAL API KEY -->
+<div class="apikey-overlay" id="apikey-overlay">
+  <div class="apikey-box">
+    <div class="apikey-head">
+      <h2>Configuración de IA</h2>
+      <p>ANTHROPIC API KEY · REQUERIDA PARA EXTRACCIÓN AUTOMÁTICA</p>
+    </div>
+    <div class="apikey-body">
+      <p>La app usa la IA de Anthropic para extraer datos de fotos y CSVs automáticamente.<br>
+         Introduce tu API key — se guardará solo en este navegador y nunca se envía a ningún servidor externo.</p>
+      <div class="apikey-input-wrap">
+        <input type="password" id="apikey-input" placeholder="sk-ant-api03-..." autocomplete="off" onkeydown="if(event.key==='Enter')guardarApiKey()">
+        <button class="btn btn-caramel" onclick="guardarApiKey()">Guardar</button>
+      </div>
+      <div class="apikey-error" id="apikey-error">La key debe empezar por <code>sk-ant-</code>. Revísala e inténtalo de nuevo.</div>
+      <p class="apikey-hint">
+        Consigue tu API key en <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.<br>
+        La key se guarda en localStorage de este navegador. Para eliminarla usa el botón ⚙ API Key del menú.
+      </p>
+      <div style="display:flex;justify-content:flex-end;margin-top:16px;" id="apikey-cancel-row">
+        <button class="btn btn-secondary" onclick="closeApiKeyModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <nav class="nav">
   <button class="nav-btn active" onclick="showView('recepcion',this)">1 · Recepción</button>
@@ -876,11 +919,76 @@ async function processCsvRoasTime(file) {
   }
 }
 
+// ═══════════════════════════════════════
+// API KEY — gestión
+// ═══════════════════════════════════════
+const APIKEY_STORAGE = 'cote_anthropic_key';
+
+function getApiKey() {
+  return localStorage.getItem(APIKEY_STORAGE) || '';
+}
+
+function openApiKeyModal() {
+  const key = getApiKey();
+  const input = document.getElementById('apikey-input');
+  const cancelRow = document.getElementById('apikey-cancel-row');
+  input.value = '';
+  input.placeholder = key ? '••••••••••••••••••••••••' : 'sk-ant-api03-...';
+  // Solo mostrar "Cancelar" si ya hay una key guardada (no es el primer uso)
+  cancelRow.style.display = key ? 'flex' : 'none';
+  document.getElementById('apikey-error').classList.remove('visible');
+  document.getElementById('apikey-overlay').classList.add('open');
+  setTimeout(() => input.focus(), 100);
+}
+
+function closeApiKeyModal() {
+  document.getElementById('apikey-overlay').classList.remove('open');
+}
+
+function guardarApiKey() {
+  const input = document.getElementById('apikey-input');
+  const key = input.value.trim();
+  if (!key.startsWith('sk-ant-')) {
+    document.getElementById('apikey-error').classList.add('visible');
+    return;
+  }
+  localStorage.setItem(APIKEY_STORAGE, key);
+  actualizarEstadoApiKey();
+  closeApiKeyModal();
+}
+
+function actualizarEstadoApiKey() {
+  const key = getApiKey();
+  const btn = document.getElementById('apikey-header-btn');
+  if (key) {
+    btn.textContent = '✓ API Key';
+    btn.style.borderColor = 'rgba(45,80,22,0.5)';
+    btn.style.color = '#7ab548';
+  } else {
+    btn.textContent = '⚙ API Key';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
+
+// ═══════════════════════════════════════
+// CLAUDE API
+// ═══════════════════════════════════════
 async function callClaude(messages) {
+  const key = getApiKey();
+  if (!key) {
+    openApiKeyModal();
+    throw new Error('API key no configurada');
+  }
   const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,messages})
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, messages })
   });
   return r.json();
 }
@@ -1551,6 +1659,13 @@ function imprimirEtiquetaDesdeHistorial(id) {
 // ═══════════════════════════════════════
 document.getElementById('badge-count').textContent = lotes.length;
 document.getElementById('t-fecha').value = new Date().toISOString().split('T')[0];
+
+// Comprobar API key al arrancar
+actualizarEstadoApiKey();
+if (!getApiKey()) {
+  // Primera vez: mostrar el modal de configuración sin opción de cancelar
+  openApiKeyModal();
+}
 </script>
 </body>
 </html>
