@@ -129,17 +129,16 @@ textarea { resize: vertical; min-height: 60px; }
 /* ETIQUETA */
 .etiqueta-wrap { display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; }
 .et-preview-label { font-size: 11px; color: rgba(26,14,8,0.4); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
-/* Proporción exacta 62×40mm = ratio 1.55:1. Usamos width fija y aspect-ratio. */
-.etiqueta { background: var(--espresso); border-radius: 6px; padding: 10px 13px; width: 310px; aspect-ratio: 62 / 40; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-.et-brand { font-family: 'DM Mono', monospace; font-size: 9px; color: #000000; letter-spacing: 0.12em; margin-bottom: 4px; }
-.et-hr { border: none; border-top: 1px solid #000000; margin: 4px 0; opacity: 0.3; }
-.et-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 3px; }
-.et-lbl { font-size: 7.5px; color: #000000; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; opacity: 0.6; }
-.et-val { font-size: 9.5px; color: #000000; font-family: 'DM Mono', monospace; text-align: right; font-weight: 600; }
-.et-lote { font-size: 8px; color: #000000; font-family: 'DM Mono', monospace; text-align: right; font-weight: 500; }
-.et-cons { font-size: 6.5px; color: #000000; margin-top: 3px; line-height: 1.35; opacity: 0.75; }
-.et-rec  { font-size: 6.5px; color: #000000; margin-top: 2px; line-height: 1.35; opacity: 0.55; }
-.et-nutr { font-size: 6.5px; color: #000000; margin-top: 2px; line-height: 1.35; opacity: 0.4; }
+.etiqueta { background: var(--espresso); border-radius: 8px; padding: 16px 20px; width: 280px; }
+.et-brand { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--caramel); letter-spacing: 0.12em; margin-bottom: 8px; }
+.et-hr { border: none; border-top: 1px solid rgba(200,132,58,0.2); margin: 8px 0; }
+.et-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+.et-lbl { font-size: 9px; color: rgba(200,132,58,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.et-val { font-size: 12px; color: var(--latte); font-family: 'DM Mono', monospace; text-align: right; }
+.et-lote { font-size: 10px; color: rgba(200,132,58,0.7); font-family: 'DM Mono', monospace; text-align: right; }
+.et-cons { font-size: 10px; color: rgba(200,132,58,0.5); margin-top: 6px; line-height: 1.5; }
+.et-rec { font-size: 9px; color: rgba(200,132,58,0.35); margin-top: 4px; font-style: italic; }
+.et-nutr { font-size: 8px; color: rgba(200,132,58,0.25); margin-top: 8px; line-height: 1.4; }
 
 /* HISTORIAL */
 .search-bar { display: flex; gap: 10px; margin-bottom: 1.5rem; }
@@ -151,11 +150,9 @@ textarea { resize: vertical; min-height: 60px; }
 .lote-right { display: flex; align-items: center; gap: 12px; }
 .lote-pases { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(26,14,8,0.35); }
 .status { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; font-family: 'DM Mono', monospace; white-space: nowrap; }
-.status.completo   { background: var(--green-bg); color: var(--green); }
-.status.pendiente  { background: var(--amber-bg); color: var(--amber); }
-.status.parcial    { background: #e8f0ff; color: #2a4a8a; }
-.status.incidencia { background: var(--red-bg);   color: var(--red); }
-.kg-stock { font-size: 11px; color: rgba(26,14,8,0.55); font-family: 'DM Mono', monospace; margin-top: 4px; letter-spacing: 0.01em; }
+.status.completo { background: var(--green-bg); color: var(--green); }
+.status.pendiente { background: var(--amber-bg); color: var(--amber); }
+.status.incidencia { background: var(--red-bg); color: var(--red); }
 
 .empty-state { text-align: center; padding: 60px 20px; color: rgba(26,14,8,0.3); }
 .empty-icon { font-size: 40px; margin-bottom: 12px; }
@@ -175,108 +172,34 @@ textarea { resize: vertical; min-height: 60px; }
 .detail-key { color: rgba(26,14,8,0.45); }
 .detail-val { color: var(--espresso); font-weight: 400; }
 
-/* API KEY SETUP */
-.apikey-overlay { position: fixed; inset: 0; background: rgba(26,14,8,0.85); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
-.apikey-overlay.open { display: flex; }
-.apikey-box { background: white; border-radius: 14px; width: 100%; max-width: 480px; overflow: hidden; box-shadow: 0 24px 64px rgba(26,14,8,0.4); }
-.apikey-head { background: var(--espresso); padding: 18px 24px; }
-.apikey-head h2 { font-family: 'DM Serif Display', serif; color: var(--caramel); font-size: 17px; margin-bottom: 4px; }
-.apikey-head p { font-size: 11px; color: rgba(200,132,58,0.55); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
-.apikey-body { padding: 24px; }
-.apikey-body p { font-size: 13px; color: rgba(26,14,8,0.6); margin-bottom: 16px; line-height: 1.6; }
-.apikey-input-wrap { display: flex; gap: 8px; margin-bottom: 10px; }
-.apikey-input-wrap input { flex: 1; font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.03em; }
-.apikey-hint { font-size: 11px; color: rgba(26,14,8,0.4); line-height: 1.5; }
-.apikey-hint a { color: var(--caramel); }
-.apikey-error { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
-.apikey-error.visible { display: block; }
+/* Contenedor oculto que se usa SOLO al imprimir la etiqueta térmica */
+#print-etiqueta { display: none; }
 
 @media print {
-  /* Ocultar todo por defecto */
-  body > * { display: none !important; }
-
-  /* Modo A: imprimir desde Paso 3 */
-  body:not(.printing-etiqueta) #view-etiqueta { display: block !important; }
-  #view-etiqueta .card-header,
-  #view-etiqueta .et-preview-label,
-  #view-etiqueta .btn-row,
-  #view-etiqueta .form-grid,
-  #view-etiqueta > .card > .card-header { display: none !important; }
-
-  /* Modo B: imprimir desde historial */
-  body.printing-etiqueta #print-etiqueta-zone { display: block !important; }
-
-  /* Página exactamente 62×40mm sin márgenes */
-  @page {
-    size: 62mm 40mm;
-    margin: 0;
-  }
-
-  html, body {
+  @page { size: 62mm 40mm; margin: 0; }
+  body { background: white; margin: 0; padding: 0; }
+  body > *:not(#print-etiqueta) { display: none !important; }
+  #print-etiqueta {
+    display: block !important;
     width: 62mm;
     height: 40mm;
-    margin: 0;
-    padding: 0;
-    background: white !important;
-  }
-
-  /* Contenedor de página — Paso 3 */
-  #view-etiqueta {
-    position: fixed;
-    inset: 0;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+    padding: 3mm;
+    box-sizing: border-box;
     background: white;
-    padding: 0;
-    margin: 0;
+    color: black;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    line-height: 1.3;
   }
-
-  #view-etiqueta .card,
-  #view-etiqueta .card-body,
-  #et-content,
-  #et-content .etiqueta-wrap {
-    all: unset;
-    display: block;
-  }
-
-  /* Contenedor de página — historial */
-  #print-etiqueta-zone {
-    position: fixed;
-    inset: 0;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* Etiqueta física — reglas compartidas para ambos modos */
-  .etiqueta {
-    width: 62mm !important;
-    height: 40mm !important;
-    aspect-ratio: unset !important;
-    border-radius: 0 !important;
-    padding: 2.5mm 3mm !important;
-    box-sizing: border-box !important;
-    background: white !important;
-    border: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    overflow: hidden !important;
-    color-adjust: exact !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  /* Todos los textos a negro puro en impresión */
-  .et-brand, .et-lbl, .et-val, .et-lote, .et-cons, .et-rec, .et-nutr {
-    color: #000000 !important;
-    opacity: 1 !important;
-  }
-  .et-hr { border-top-color: #000000 !important; opacity: 0.25 !important; }
+  #print-etiqueta * { color: black !important; background: transparent !important; }
+  #print-etiqueta .et-brand { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 8pt; letter-spacing: 0.06em; text-align: center; margin-bottom: 1.5mm; }
+  #print-etiqueta .et-hr    { border: none; border-top: 0.4pt solid black; margin: 1mm 0; }
+  #print-etiqueta .et-row   { display: flex; justify-content: space-between; align-items: baseline; gap: 2mm; margin-bottom: 0.5mm; }
+  #print-etiqueta .et-lbl   { font-family: 'DM Mono', monospace; font-size: 6.5pt; letter-spacing: 0.04em; }
+  #print-etiqueta .et-val   { font-family: 'DM Mono', monospace; font-size: 7pt; font-weight: 500; text-align: right; }
+  #print-etiqueta .et-lote  { font-family: 'DM Mono', monospace; font-size: 6.5pt; font-weight: 500; text-align: right; }
+  #print-etiqueta .et-cons  { font-family: 'DM Sans', sans-serif; font-size: 6pt; margin-top: 1mm; line-height: 1.25; }
+  #print-etiqueta .et-nutr  { font-family: 'DM Sans', sans-serif; font-size: 5.5pt; margin-top: 0.8mm; line-height: 1.2; font-style: italic; }
 }
 </style>
 </head>
@@ -289,38 +212,12 @@ textarea { resize: vertical; min-height: 60px; }
   </div>
   <div class="header-actions">
     <span id="sync-indicator" style="font-size:11px;font-family:'DM Mono',monospace;padding:0 10px;"></span>
-    <button class="header-btn" onclick="openApiKeyModal()" id="apikey-header-btn" title="Configurar API key de Anthropic">⚙ API Key</button>
+    <button class="header-btn" onclick="abrirApiKeyModal()" title="Configurar API key de Anthropic">⚙ API key</button>
     <button class="header-btn" onclick="importBackup()">⬆ Importar backup</button>
     <button class="header-btn" onclick="exportBackup()">⬇ Exportar backup</button>
     <input type="file" id="import-file" accept=".json" class="file-hidden" onchange="handleImport(event)">
   </div>
 </header>
-
-<!-- MODAL API KEY -->
-<div class="apikey-overlay" id="apikey-overlay">
-  <div class="apikey-box">
-    <div class="apikey-head">
-      <h2>Configuración de IA</h2>
-      <p>ANTHROPIC API KEY · REQUERIDA PARA EXTRACCIÓN AUTOMÁTICA</p>
-    </div>
-    <div class="apikey-body">
-      <p>La app usa la IA de Anthropic para extraer datos de fotos y CSVs automáticamente.<br>
-         Introduce tu API key — se guardará solo en este navegador y nunca se envía a ningún servidor externo.</p>
-      <div class="apikey-input-wrap">
-        <input type="password" id="apikey-input" placeholder="sk-ant-api03-..." autocomplete="off" onkeydown="if(event.key==='Enter')guardarApiKey()">
-        <button class="btn btn-caramel" onclick="guardarApiKey()">Guardar</button>
-      </div>
-      <div class="apikey-error" id="apikey-error">La key debe empezar por <code>sk-ant-</code>. Revísala e inténtalo de nuevo.</div>
-      <p class="apikey-hint">
-        Consigue tu API key en <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.<br>
-        La key se guarda en localStorage de este navegador. Para eliminarla usa el botón ⚙ API Key del menú.
-      </p>
-      <div style="display:flex;justify-content:flex-end;margin-top:16px;" id="apikey-cancel-row">
-        <button class="btn btn-secondary" onclick="closeApiKeyModal()">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <nav class="nav">
   <button class="nav-btn active" onclick="showView('recepcion',this)">1 · Recepción</button>
@@ -347,7 +244,7 @@ textarea { resize: vertical; min-height: 60px; }
            ondragleave="this.classList.remove('drag')"
            ondrop="handleDrop(event,'saco')">
         <div class="upload-icon">📦</div>
-        <div class="upload-text"><strong>Foto o PDF de la etiqueta del saco / factura</strong><br>La IA extrae todos los datos automáticamente</div>
+        <div class="upload-text"><strong>Foto o PDF de la etiqueta del saco</strong><br>Origen, región, variedad, productor, proceso, kg, lote</div>
       </div>
       <input type="file" id="saco-file" accept="image/*,.pdf,application/pdf" class="file-hidden" onchange="processImage(event,'saco')">
 
@@ -356,11 +253,30 @@ textarea { resize: vertical; min-height: 60px; }
         <div class="ai-result" id="res-saco"></div>
       </div>
 
-      <div class="section-divider"><span>Distribuidor</span></div>
+      <div class="upload-zone" onclick="document.getElementById('factura-file').click()"
+           ondragover="event.preventDefault();this.classList.add('drag')"
+           ondragleave="this.classList.remove('drag')"
+           ondrop="handleDrop(event,'factura')"
+           style="margin-top:12px;">
+        <div class="upload-icon">🧾</div>
+        <div class="upload-text"><strong>Foto o PDF de la factura</strong><br>Solo datos administrativos: distribuidor, CIF, n.º factura, fecha, precio/kg, condiciones de pago</div>
+      </div>
+      <input type="file" id="factura-file" accept="image/*,.pdf,application/pdf" class="file-hidden" onchange="processImage(event,'factura')">
+
+      <div class="ai-box" id="ai-factura">
+        <div class="ai-status"><div class="ai-spinner" id="spin-factura"></div><span id="txt-factura">Analizando factura...</span></div>
+        <div class="ai-result" id="res-factura"></div>
+      </div>
+
+      <div class="section-divider"><span>Distribuidor y transacción</span></div>
       <div class="form-grid cols2">
         <div class="form-group">
           <label>Distribuidor / Proveedor</label>
           <input type="text" id="r-proveedor" placeholder="ej. IO Coffees Producers and Processors SL">
+        </div>
+        <div class="form-group">
+          <label>CIF del distribuidor</label>
+          <input type="text" id="r-cif" placeholder="ej. B12345678">
         </div>
         <div class="form-group">
           <label>N.º RGSEAA del distribuidor</label>
@@ -373,6 +289,14 @@ textarea { resize: vertical; min-height: 60px; }
         <div class="form-group">
           <label>Fecha de factura</label>
           <input type="date" id="r-fecha-factura">
+        </div>
+        <div class="form-group">
+          <label>Precio / kg (€)</label>
+          <input type="number" id="r-precio-kg" placeholder="ej. 8.50" step="0.01">
+        </div>
+        <div class="form-group span2">
+          <label>Condiciones de pago</label>
+          <input type="text" id="r-condiciones" placeholder="ej. Transferencia 30 días">
         </div>
       </div>
 
@@ -468,17 +392,17 @@ textarea { resize: vertical; min-height: 60px; }
 
       <div class="form-grid cols2" style="margin-bottom:16px;">
         <div class="form-group span2">
-          <label>Lote a tostar</label>
+          <label>Saco a tostar</label>
           <select id="t-lote-sel" onchange="cargarLote(this.value)">
-            <option value="">— Seleccionar lote —</option>
+            <option value="">— Seleccionar saco con kg pendientes —</option>
           </select>
         </div>
       </div>
 
       <div id="t-form" style="display:none;">
-        <div class="form-grid cols3" style="margin-bottom:16px;">
+        <div class="form-grid cols3" style="margin-bottom:12px;">
           <div class="form-group">
-            <label>Código de lote</label>
+            <label>Código de etiqueta</label>
             <input type="text" id="t-codigo" class="highlight" readonly>
           </div>
           <div class="form-group">
@@ -491,6 +415,13 @@ textarea { resize: vertical; min-height: 60px; }
           </div>
         </div>
 
+        <div class="totales-box" style="margin-bottom:16px;">
+          <div class="total-item"><div class="total-label">Recibidos</div><div class="total-value" id="t-stock-recibidos">—</div></div>
+          <div class="total-item"><div class="total-label">Ya tostados</div><div class="total-value" id="t-stock-tostados">—</div></div>
+          <div class="total-item"><div class="total-label">Pendientes</div><div class="total-value" id="t-stock-pendientes" style="color:var(--caramel);">—</div></div>
+          <div class="total-item"><div class="total-label">Sesiones previas</div><div class="total-value" id="t-stock-sesiones">—</div></div>
+        </div>
+
         <div class="section-divider"><span>Pases del día — importar desde RoasTime</span></div>
 
         <div class="upload-zone" onclick="document.getElementById('csv-file').click()"
@@ -501,7 +432,7 @@ textarea { resize: vertical; min-height: 60px; }
           <div class="upload-icon" style="font-size:22px;">📊</div>
           <div class="upload-text"><strong>Exporta el CSV de RoasTime</strong> y súbelo aquí, o sube un pantallazo<br><span style="font-size:11px;">RoasTime → Roasts → selecciona los pases del día → Export</span></div>
         </div>
-        <input type="file" id="csv-file" accept=".csv,.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="file-hidden" onchange="processRoasTime(event)">
+        <input type="file" id="csv-file" accept=".csv,image/*" class="file-hidden" onchange="processRoasTime(event)">
 
         <div class="ai-box" id="ai-roastime">
           <div class="ai-status"><div class="ai-spinner" id="spin-rt"></div><span id="txt-rt">Leyendo datos de RoasTime...</span></div>
@@ -531,8 +462,8 @@ textarea { resize: vertical; min-height: 60px; }
               <input type="number" id="pm-kgout" placeholder="0.717" step="0.001">
             </div>
             <div class="form-group">
-              <label>T.ª máx grano (°C)</label>
-              <input type="number" id="pm-temp" placeholder="206.7" step="0.1">
+              <label>T.ª máx grano (°C) <span style="color:var(--red);font-weight:600;" title="Obligatorio — PCC-2">*</span></label>
+              <input type="number" id="pm-temp" class="highlight" placeholder="206.7" step="0.1">
             </div>
             <div class="form-group">
               <label>Tiempo total (min)</label>
@@ -650,18 +581,7 @@ textarea { resize: vertical; min-height: 60px; }
         <div class="etiqueta-wrap">
           <div>
             <div class="et-preview-label">Vista previa — 62 × 40 mm</div>
-            <div class="etiqueta">
-              <div class="et-brand">COTÉ CAFÉ ROASTERS</div>
-              <hr class="et-hr">
-              <div class="et-row"><span class="et-lbl">TOSTADO EL</span><span class="et-val" id="et-fecha"></span></div>
-              <div class="et-row"><span class="et-lbl">CONS. PREF.</span><span class="et-val" id="et-cons-legal"></span></div>
-              <div class="et-row"><span class="et-lbl">MEJOR ANTES</span><span class="et-val" id="et-cons-calidad"></span></div>
-              <div class="et-row"><span class="et-lbl">LOTE</span><span class="et-lote" id="et-lote"></span></div>
-              <hr class="et-hr">
-              <div class="et-cons">Consérvalo fresco, seco y sin luz directa.</div>
-              <div class="et-rec">Disfruta sus matices antes de la fecha recomendada.</div>
-              <div class="et-nutr">El valor energético y el contenido en nutrientes son insignificantes.</div>
-            </div>
+            <div class="etiqueta" id="etiqueta-preview"></div>
           </div>
           <div style="flex:1;min-width:220px;">
             <div class="et-preview-label">Datos generados</div>
@@ -671,12 +591,11 @@ textarea { resize: vertical; min-height: 60px; }
               <div class="form-group"><label>Consumir pref. antes de (legal)</label><input type="text" id="et-f-cons-legal" readonly></div>
               <div class="form-group"><label>Mejor antes de (recomendación calidad)</label><input type="text" id="et-f-cons-calidad" readonly></div>
               <div class="form-group"><label>Tamaño etiqueta</label><input type="text" id="et-f-size" readonly value="62 × 40 mm — Brother DK-22205"></div>
-              <div class="form-group"><label>Presentación</label><input type="text" id="et-f-presentacion" readonly></div>
             </div>
           </div>
         </div>
         <div class="btn-row">
-          <button class="btn btn-secondary" onclick="window.print()">🖨 Imprimir etiqueta — 62×40mm</button>
+          <button class="btn btn-secondary" onclick="window.print()">🖨 Imprimir etiqueta</button>
           <button class="btn btn-success" onclick="finalizarLote()">✓ Lote completado — Guardar</button>
         </div>
       </div>
@@ -688,35 +607,16 @@ textarea { resize: vertical; min-height: 60px; }
      HISTORIAL
 ══════════════════════════════════════ -->
 <div class="view" id="view-historial">
-
-  <div class="search-bar" style="margin-bottom:1.5rem;">
-    <input type="text" id="h-search" placeholder="Buscar por lote, origen, proveedor, factura..." oninput="renderHistorial()">
+  <div class="search-bar">
+    <input type="text" id="h-search" placeholder="Buscar por lote, origen, proveedor..." oninput="renderHistorial()">
+    <select id="h-filter" onchange="renderHistorial()" style="width:200px;">
+      <option value="">Todos los estados</option>
+      <option value="completo">Completo</option>
+      <option value="pendiente">Pendiente tostado</option>
+      <option value="incidencia">Con incidencia</option>
+    </select>
   </div>
-
-  <!-- ENTRADAS — Café Verde -->
-  <div style="margin-bottom:2rem;">
-    <div class="section-divider" style="margin-top:0;margin-bottom:14px;">
-      <span>Entradas — Café Verde</span>
-    </div>
-    <div id="historial-entradas"></div>
-  </div>
-
-  <!-- SALIDAS — Lotes Tostados -->
-  <div>
-    <div class="section-divider" style="margin-bottom:10px;">
-      <span>Salidas — Lotes Tostados</span>
-    </div>
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-      <select id="h-filter" onchange="renderHistorial()" style="width:200px;">
-        <option value="">Todos los estados</option>
-        <option value="completo">Completo</option>
-        <option value="pendiente">Pendiente tostado</option>
-        <option value="incidencia">Con incidencia</option>
-      </select>
-    </div>
-    <div id="historial-salidas"></div>
-  </div>
-
+  <div id="historial-list"></div>
 </div>
 
 </main>
@@ -732,53 +632,280 @@ textarea { resize: vertical; min-height: 60px; }
   </div>
 </div>
 
-<!-- ZONA DE IMPRESIÓN DESDE HISTORIAL (oculta en pantalla, visible solo al imprimir con body.printing-etiqueta) -->
-<div id="print-etiqueta-zone" style="display:none;">
-  <div class="etiqueta">
-    <div class="et-brand">COTÉ CAFÉ ROASTERS</div>
-    <hr class="et-hr">
-    <div class="et-row"><span class="et-lbl">TOSTADO EL</span><span class="et-val" id="pz-fecha"></span></div>
-    <div class="et-row"><span class="et-lbl">CONS. PREF.</span><span class="et-val" id="pz-cons-legal"></span></div>
-    <div class="et-row"><span class="et-lbl">MEJOR ANTES</span><span class="et-val" id="pz-cons-calidad"></span></div>
-    <div class="et-row"><span class="et-lbl">LOTE</span><span class="et-lote" id="pz-lote"></span></div>
-    <hr class="et-hr">
-    <div class="et-cons">Consérvalo fresco, seco y sin luz directa.</div>
-    <div class="et-rec">Disfruta sus matices antes de la fecha recomendada.</div>
-    <div class="et-nutr">El valor energético y el contenido en nutrientes son insignificantes.</div>
+<!-- BOOT — pantalla de carga inicial -->
+<div id="boot-overlay" class="modal-overlay" style="display:flex;flex-direction:column;gap:14px;color:var(--caramel);">
+  <div style="font-size:36px;">☕</div>
+  <div style="font-family:'DM Mono',monospace;font-size:13px;letter-spacing:0.05em;">Cargando datos desde Google Sheets…</div>
+</div>
+<div id="boot-error" class="modal-overlay" style="display:none;flex-direction:column;gap:16px;color:var(--cream);text-align:center;padding:2rem;">
+  <div style="font-size:40px;color:var(--caramel);">⚠</div>
+  <div class="boot-msg" style="max-width:480px;font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;">No se ha podido conectar con Google Sheets.</div>
+  <button class="btn btn-caramel" id="boot-retry">Reintentar</button>
+</div>
+
+<!-- MODAL — CONFIGURACIÓN DE API KEY -->
+<div class="modal-overlay" id="apikey-modal" onclick="if(event.target===this)closeApiKeyModal()">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <span class="modal-title">Configurar API key de Anthropic</span>
+      <button class="modal-close" onclick="closeApiKeyModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:rgba(26,14,8,0.7);margin-bottom:14px;line-height:1.5;">
+        La aplicación necesita una API key de Anthropic para procesar facturas, etiquetas de saco y datos de RoasTime con IA. La clave se guarda solo en este navegador (localStorage), nunca se sube al código fuente ni a Google Sheets.
+      </p>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label>API key</label>
+        <input type="password" id="apikey-input" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false">
+      </div>
+      <p style="font-size:11px;color:rgba(26,14,8,0.45);margin-bottom:14px;">
+        Obtén o gestiona tu key en <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener" style="color:var(--caramel);">console.anthropic.com/settings/keys</a>
+      </p>
+      <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap;">
+        <button class="btn btn-danger" onclick="borrarApiKey()">Borrar key guardada</button>
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-secondary" onclick="closeApiKeyModal()">Cancelar</button>
+          <button class="btn btn-caramel" onclick="guardarApiKey()">Guardar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- ETIQUETA PARA IMPRESIÓN — solo visible en @media print, se rellena dinámicamente -->
+<div id="print-etiqueta" aria-hidden="true"></div>
+
 <script>
+// ═══════════════════════════════════════
+// CONFIGURACIÓN
+// ═══════════════════════════════════════
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbyuxdGrkOXZLQs1cf5OVGcEhWbmNa5VVOTeJKR48AH-0-VcUGIbFKEPzAd2PMxngsZL/exec";
+const POLL_MS = 30000;   // refresco automático cada 30s
+
+const TOL_KG = 0.01;     // tolerancia para considerar un saco "agotado" (10g)
+const APIKEY_STORAGE = 'anthropic_api_key';
+
+// ═══════════════════════════════════════
+// API KEY (localStorage — NUNCA hardcoded en el archivo)
+// ═══════════════════════════════════════
+function getApiKey() {
+  return localStorage.getItem(APIKEY_STORAGE) || '';
+}
+
+function abrirApiKeyModal() {
+  document.getElementById('apikey-input').value = getApiKey();
+  document.getElementById('apikey-modal').classList.add('open');
+  setTimeout(() => document.getElementById('apikey-input').focus(), 80);
+}
+
+function closeApiKeyModal() {
+  document.getElementById('apikey-modal').classList.remove('open');
+}
+
+function guardarApiKey() {
+  const v = document.getElementById('apikey-input').value.trim();
+  if (!v) { alert('Introduce una API key.'); return; }
+  if (!v.startsWith('sk-ant-')) {
+    if (!confirm('La clave no parece una API key de Anthropic (no empieza por "sk-ant-"). ¿Guardar igualmente?')) return;
+  }
+  localStorage.setItem(APIKEY_STORAGE, v);
+  closeApiKeyModal();
+}
+
+function borrarApiKey() {
+  if (!confirm('¿Borrar la API key guardada en este navegador? Tendrás que volver a introducirla para usar la IA.')) return;
+  localStorage.removeItem(APIKEY_STORAGE);
+  document.getElementById('apikey-input').value = '';
+}
+
 // ═══════════════════════════════════════
 // ESTADO
 // ═══════════════════════════════════════
-let lotes = JSON.parse(localStorage.getItem('cote_lotes_v2') || '[]');
-let loteActivo = null;
+let recepciones = [];
+let tostados    = [];
+let recepcionActiva = null;     // saco seleccionado para tostar
 let pasesActivos = [];
+let appLista = false;
+let pollTimer = null;
 
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbygvkCJygtkpJ6ifTJThy6ls3ay0nuv6pXZBioF-LCpARc8dJW5qr_gz3KQehRPZV9b/exec";
-
-function save(loteParaSync) {
-  localStorage.setItem('cote_lotes_v2', JSON.stringify(lotes));
-  document.getElementById('badge-count').textContent = lotes.length;
-  if (loteParaSync) syncToSheets(loteParaSync);
+// ═══════════════════════════════════════
+// SINCRONIZACIÓN — Google Sheets es la BD principal
+// ═══════════════════════════════════════
+function setSyncStatus(text, color) {
+  const ind = document.getElementById('sync-indicator');
+  if (!ind) return;
+  ind.textContent = text;
+  ind.style.color = color || '';
 }
 
-async function syncToSheets(lote) {
-  const indicator = document.getElementById('sync-indicator');
-  if (indicator) { indicator.textContent = '↑ Guardando en Drive...'; indicator.style.color = 'rgba(200,132,58,0.7)'; }
+async function fetchAllData() {
+  const r = await fetch(SHEETS_URL, { method: 'GET', cache: 'no-store' });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  const data = await r.json();
+  if (!data.ok) throw new Error(data.error || 'Respuesta inválida');
+  return data;
+}
+
+async function postToSheets(payload) {
+  // text/plain evita el preflight de CORS con Apps Script
+  const r = await fetch(SHEETS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();   // puede ser ok:true u ok:false con error legible
+}
+
+async function saveRecepcion(rec) {
+  setSyncStatus('↑ Guardando recepción…', 'rgba(200,132,58,0.7)');
   try {
-    await fetch(SHEETS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(lote)
-    });
-    if (indicator) { indicator.textContent = '✓ Guardado en Drive'; indicator.style.color = 'rgba(45,80,22,0.8)'; setTimeout(() => { indicator.textContent = ''; }, 3000); }
-  } catch(err) {
-    if (indicator) { indicator.textContent = '⚠ Sin conexión — guardado local'; indicator.style.color = 'rgba(146,96,10,0.8)'; setTimeout(() => { indicator.textContent = ''; }, 4000); }
-    console.error('Sheets sync error:', err);
+    const res = await postToSheets({ action: 'upsert_recepcion', data: rec });
+    if (!res.ok) throw new Error(res.error || 'Error');
+    setSyncStatus('✓ Guardado', 'rgba(45,80,22,0.8)');
+    setTimeout(() => setSyncStatus(''), 2500);
+    return true;
+  } catch (err) {
+    setSyncStatus('');
+    alert('No se ha podido guardar la recepción:\n\n' + err.message +
+          '\n\nLos cambios solo se aplican cuando Google Sheets confirma el guardado.');
+    return false;
   }
+}
+
+async function saveTostado(t) {
+  setSyncStatus('↑ Guardando tostado…', 'rgba(200,132,58,0.7)');
+  try {
+    const res = await postToSheets({ action: 'upsert_tostado', data: t });
+    if (!res.ok) throw new Error(res.error || 'Error');
+    setSyncStatus('✓ Guardado', 'rgba(45,80,22,0.8)');
+    setTimeout(() => setSyncStatus(''), 2500);
+    return true;
+  } catch (err) {
+    setSyncStatus('');
+    alert('No se ha podido guardar el tostado:\n\n' + err.message);
+    return false;
+  }
+}
+
+async function deleteRecepcionRemote(id) {
+  setSyncStatus('↑ Eliminando…', 'rgba(200,132,58,0.7)');
+  try {
+    const res = await postToSheets({ action: 'delete_recepcion', id });
+    if (!res.ok) {
+      if (res.error === 'BLOQUEADO_TIENE_TOSTADOS') {
+        setSyncStatus('');
+        alert(`No se puede eliminar: esta recepción tiene ${res.tostados_count} tostado(s) asociado(s).\n\nElimina primero los tostados desde el detalle de la recepción si quieres borrar el saco completo. Esto protege los registros del APPCC.`);
+        return false;
+      }
+      throw new Error(res.error || 'Error');
+    }
+    setSyncStatus('✓ Eliminado', 'rgba(45,80,22,0.8)');
+    setTimeout(() => setSyncStatus(''), 2500);
+    return true;
+  } catch (err) {
+    setSyncStatus('');
+    alert('No se ha podido eliminar:\n\n' + err.message);
+    return false;
+  }
+}
+
+async function deleteTostadoRemote(id) {
+  setSyncStatus('↑ Eliminando tostado…', 'rgba(200,132,58,0.7)');
+  try {
+    const res = await postToSheets({ action: 'delete_tostado', id });
+    if (!res.ok) throw new Error(res.error || 'Error');
+    setSyncStatus('✓ Eliminado', 'rgba(45,80,22,0.8)');
+    setTimeout(() => setSyncStatus(''), 2500);
+    return true;
+  } catch (err) {
+    setSyncStatus('');
+    alert('No se ha podido eliminar el tostado:\n\n' + err.message);
+    return false;
+  }
+}
+
+async function loadFromSheets({ silent } = {}) {
+  if (!silent) setSyncStatus('↓ Cargando…', 'rgba(200,132,58,0.7)');
+  try {
+    const data = await fetchAllData();
+    recepciones = (data.recepciones || []).sort((a, b) =>
+      String(b.fecha_recepcion || b.creado || '').localeCompare(String(a.fecha_recepcion || a.creado || ''))
+    );
+    tostados = data.tostados || [];
+
+    document.getElementById('badge-count').textContent = recepciones.length;
+    if (document.getElementById('view-historial').classList.contains('active')) renderHistorial();
+    if (!recepcionActiva) populateLoteSelector();
+
+    if (!silent) {
+      setSyncStatus('✓ Datos al día', 'rgba(45,80,22,0.8)');
+      setTimeout(() => setSyncStatus(''), 2000);
+    }
+    return true;
+  } catch (err) {
+    if (silent) {
+      setSyncStatus('⚠ Sin conexión', 'rgba(139,26,26,0.8)');
+    } else {
+      document.getElementById('boot-overlay').style.display = 'none';
+      const ovl = document.getElementById('boot-error');
+      ovl.querySelector('.boot-msg').textContent =
+        'No se ha podido cargar Google Sheets: ' + err.message;
+      ovl.style.display = 'flex';
+    }
+    return false;
+  }
+}
+
+async function boot() {
+  document.getElementById('boot-error').style.display = 'none';
+  document.getElementById('boot-overlay').style.display = 'flex';
+  const ok = await loadFromSheets();
+  if (ok) {
+    document.getElementById('boot-overlay').style.display = 'none';
+    appLista = true;
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => loadFromSheets({ silent: true }), POLL_MS);
+    // Si falta la API key de Anthropic, abrir el modal de configuración
+    if (!getApiKey()) setTimeout(abrirApiKeyModal, 300);
+  }
+}
+
+// ═══════════════════════════════════════
+// STOCK VIVO
+// ═══════════════════════════════════════
+function tostadosDeRecepcion(recId) {
+  return tostados
+    .filter(t => String(t.recepcion_id) === String(recId))
+    .sort((a, b) => (a.numero_sesion || 0) - (b.numero_sesion || 0));
+}
+
+function getStock(rec) {
+  const linked = tostadosDeRecepcion(rec.id);
+  const recibidos = parseFloat(rec.kg_recibidos) || 0;
+  const tostado = linked.reduce((s, t) => s + (parseFloat(t.kg_verde_entrada) || 0), 0);
+  return {
+    recibidos,
+    tostado,
+    pendiente: Math.max(0, recibidos - tostado),
+    sesiones: linked.length,
+    tieneIncidencia: linked.some(t => t.pcc_conforme === false)
+  };
+}
+
+function recepcionesDisponiblesParaTostar() {
+  return recepciones.filter(r => {
+    const s = getStock(r);
+    return s.pendiente > TOL_KG;
+  });
+}
+
+function computeEstadoRecepcion(rec) {
+  const s = getStock(rec);
+  if (s.tieneIncidencia) return 'incidencia';
+  if (s.sesiones === 0) return 'pendiente';
+  if (s.pendiente <= TOL_KG) return 'agotado';
+  return 'en-curso';
 }
 
 // ═══════════════════════════════════════
@@ -803,17 +930,49 @@ function handleDrop(e, tipo) {
   e.currentTarget.classList.remove('drag');
   const file = e.dataTransfer.files[0];
   if (!file) return;
-  if (tipo === 'saco') processImage({target:{files:[file]}}, 'saco');
+  if (tipo === 'saco' || tipo === 'factura') processImage({target:{files:[file]}}, tipo);
   if (tipo === 'csv') processRoasTime({target:{files:[file]}});
 }
+
+const PROMPT_SACO = `Eres asistente de trazabilidad alimentaria. Analiza esta etiqueta de saco de café verde y extrae SOLO los campos del café. Devuelve JSON estricto sin texto adicional ni backticks:
+{"origen":"","region":"","variedad":"","productor":"","proceso":"","kg":"","lote_proveedor":""}
+
+- "origen" = país de cultivo
+- "region" = región o departamento dentro del país
+- "variedad" = variedad botánica (ej. Castillo, Caturra, SL28)
+- "productor" = nombre del productor o finca
+- "proceso" = método de procesado (lavado, natural, honey, anaerobio…)
+- "kg" = peso del saco en kg (solo número)
+- "lote_proveedor" = código del lote impreso en el saco
+
+NO extraigas datos del distribuidor, número de factura, fecha, precio ni condiciones de pago aunque aparezcan en la etiqueta — esos datos vienen de la factura. Si la etiqueta menciona varios cafés, elige el principal.`;
+
+const PROMPT_FACTURA = `Eres asistente de trazabilidad alimentaria. Analiza esta factura de compra de café verde y extrae SOLO los campos administrativos de la transacción. Devuelve JSON estricto sin texto adicional ni backticks:
+{"proveedor":"","cif":"","factura":"","fecha_factura":"YYYY-MM-DD","precio_kg":"","condiciones_pago":""}
+
+- "proveedor" = nombre comercial del distribuidor que emite la factura
+- "cif" = CIF / NIF / VAT del distribuidor
+- "factura" = número de factura
+- "fecha_factura" = fecha de emisión en formato YYYY-MM-DD
+- "precio_kg" = precio por kilogramo de café verde (solo número, en euros)
+- "condiciones_pago" = condiciones de pago (ej. "Transferencia 30 días")
+
+IMPORTANTE: NO extraigas en ningún caso datos del café (origen, región, variedad, productor, proceso, kg, lote del proveedor, finca, SCA, notas de cata) aunque aparezcan en la factura. Esos datos vienen exclusivamente de la etiqueta del saco. Si la factura contiene varios cafés, ignóralos por completo: solo nos interesan los campos administrativos de la transacción.`;
+
+const PROMPT_ROASTIME = `Eres asistente de trazabilidad de tostado de café. Analiza este pantallazo de RoasTime y extrae los datos de TODOS los perfiles visibles en JSON estricto sin texto adicional ni backticks:
+{"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}`;
 
 async function processImage(e, tipo) {
   const file = e.target.files[0];
   if (!file) return;
-  const box = document.getElementById('ai-' + tipo);
-  const spin = document.getElementById('spin-' + (tipo === 'saco' ? 'saco' : 'rt'));
-  const txt = document.getElementById('txt-' + (tipo === 'saco' ? 'saco' : 'rt'));
-  const res = document.getElementById('res-' + (tipo === 'saco' ? 'saco' : 'rt'));
+
+  // tipo: 'saco' | 'factura' | 'rt' (RoasTime imagen)
+  const boxId  = tipo === 'rt' ? 'ai-roastime' : 'ai-' + tipo;
+  const suffix = tipo === 'rt' ? 'rt' : tipo;
+  const box  = document.getElementById(boxId);
+  const spin = document.getElementById('spin-' + suffix);
+  const txt  = document.getElementById('txt-' + suffix);
+  const res  = document.getElementById('res-' + suffix);
   box.classList.add('visible');
   spin.style.display = 'block';
   txt.textContent = 'Analizando con IA...';
@@ -821,9 +980,9 @@ async function processImage(e, tipo) {
   try {
     const isPDF = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
     const b64 = await toB64(file);
-    const prompt = tipo === 'saco'
-      ? 'Eres asistente de trazabilidad alimentaria. Analiza esta factura o etiqueta de saco de café verde y extrae en JSON estricto sin texto adicional ni backticks:\n{"proveedor":"","rgseaa":"","factura":"","fecha_factura":"YYYY-MM-DD","origen":"","region":"","variedad":"","productor":"","proceso":"","kg":"","lote_proveedor":""}. El origen es el país de cultivo del café. Si hay varios cafés en la misma factura extrae los datos del primero y pon los lotes separados por coma en lote_proveedor.'
-      : 'Eres asistente de trazabilidad de tostado de café. Analiza este pantallazo de RoasTime y extrae los datos de TODOS los perfiles visibles en JSON estricto sin texto adicional ni backticks:\n{"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}';
+    const prompt = tipo === 'saco'    ? PROMPT_SACO
+                 : tipo === 'factura' ? PROMPT_FACTURA
+                 : PROMPT_ROASTIME;
 
     let content;
     if (isPDF) {
@@ -841,17 +1000,20 @@ async function processImage(e, tipo) {
     const data = await callClaude([{ role: 'user', content }]);
     const text = data.content?.map(c => c.text || '').join('') || '';
     const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
-    if (tipo === 'saco') fillRecepcion(parsed);
+
+    if (tipo === 'saco' || tipo === 'factura') fillRecepcion(parsed, tipo);
     else fillPases(parsed.pases || []);
+
     spin.style.display = 'none';
     txt.textContent = '✓ Datos extraídos — revisa y corrige si es necesario';
-    res.textContent = tipo === 'saco'
-      ? Object.values(parsed).filter(v => v).length + ' campos detectados'
-      : (parsed.pases || []).length + ' pases detectados';
+    if (tipo === 'rt') {
+      res.textContent = (parsed.pases || []).length + ' pases detectados';
+    } else {
+      res.textContent = Object.values(parsed).filter(v => v).length + ' campos detectados';
+    }
   } catch(err) {
     spin.style.display = 'none';
-    txt.textContent = 'Error IA: ' + err.message;
-    res.textContent = 'Rellena los campos manualmente.';
+    txt.textContent = 'No se pudo extraer automáticamente. Rellena manualmente.';
     console.error(err);
   }
 }
@@ -862,37 +1024,7 @@ async function processRoasTime(e) {
   if (file.name.endsWith('.csv') || file.type === 'text/csv') {
     await processCsvRoasTime(file);
   } else {
-    await processImageRoasTime(file);
-  }
-}
-
-async function processImageRoasTime(file) {
-  const box = document.getElementById('ai-roastime');
-  const spin = document.getElementById('spin-rt');
-  const txt = document.getElementById('txt-rt');
-  const res = document.getElementById('res-rt');
-  box.classList.add('visible');
-  spin.style.display = 'block';
-  txt.textContent = 'Analizando imagen con IA...';
-  res.textContent = '';
-  try {
-    const b64 = await toB64(file);
-    const prompt = 'Eres asistente de trazabilidad de tostado de café. Analiza esta captura de pantalla o foto de RoasTime y extrae la temperatura máxima del grano (temp_max) del pase visible. Devuelve JSON estricto sin texto adicional ni backticks: {"pases":[{"kg_in":"","kg_out":"","temp_max":"","tiempo":"","first_crack_temp":"","nombre":""}]}. El campo temp_max es el dato más importante — es la temperatura máxima alcanzada por el grano en ese pase.';
-    const data = await callClaude([{ role: 'user', content: [
-      { type: 'image', source: { type: 'base64', media_type: file.type, data: b64 } },
-      { type: 'text', text: prompt }
-    ]}]);
-    const text = data.content?.map(c => c.text || '').join('') || '';
-    const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
-    fillPases(parsed.pases || []);
-    spin.style.display = 'none';
-    txt.textContent = '✓ Imagen procesada — revisa y corrige si es necesario';
-    res.textContent = (parsed.pases || []).length + ' pases detectados';
-  } catch(err) {
-    spin.style.display = 'none';
-    txt.textContent = 'Error IA: ' + err.message;
-    res.textContent = 'Añade los pases manualmente.';
-    console.error(err);
+    await processImage({target:{files:[file]}}, 'rt');
   }
 }
 
@@ -916,89 +1048,33 @@ async function processCsvRoasTime(file) {
     res.textContent = (parsed.pases||[]).length + ' pases importados desde RoasTime';
   } catch(err) {
     spin.style.display = 'none';
-    txt.textContent = 'Error IA: ' + err.message;
-    res.textContent = 'Añade los pases manualmente.';
+    txt.textContent = 'Error procesando CSV. Añade los pases manualmente.';
     console.error(err);
   }
 }
 
-// ═══════════════════════════════════════
-// API KEY — gestión
-// ═══════════════════════════════════════
-const APIKEY_STORAGE = 'cote_anthropic_key';
-
-function getApiKey() {
-  return localStorage.getItem(APIKEY_STORAGE) || '';
-}
-
-function openApiKeyModal() {
-  const key = getApiKey();
-  const input = document.getElementById('apikey-input');
-  const cancelRow = document.getElementById('apikey-cancel-row');
-  input.value = '';
-  input.placeholder = key ? '••••••••••••••••••••••••' : 'sk-ant-api03-...';
-  // Solo mostrar "Cancelar" si ya hay una key guardada (no es el primer uso)
-  cancelRow.style.display = key ? 'flex' : 'none';
-  document.getElementById('apikey-error').classList.remove('visible');
-  document.getElementById('apikey-overlay').classList.add('open');
-  setTimeout(() => input.focus(), 100);
-}
-
-function closeApiKeyModal() {
-  document.getElementById('apikey-overlay').classList.remove('open');
-}
-
-function guardarApiKey() {
-  const input = document.getElementById('apikey-input');
-  const key = input.value.trim();
-  if (!key.startsWith('sk-ant-')) {
-    document.getElementById('apikey-error').classList.add('visible');
-    return;
-  }
-  localStorage.setItem(APIKEY_STORAGE, key);
-  actualizarEstadoApiKey();
-  closeApiKeyModal();
-}
-
-function actualizarEstadoApiKey() {
-  const key = getApiKey();
-  const btn = document.getElementById('apikey-header-btn');
-  if (key) {
-    btn.textContent = '✓ API Key';
-    btn.style.borderColor = 'rgba(45,80,22,0.5)';
-    btn.style.color = '#7ab548';
-  } else {
-    btn.textContent = '⚙ API Key';
-    btn.style.borderColor = '';
-    btn.style.color = '';
-  }
-}
-
-// ═══════════════════════════════════════
-// CLAUDE API — proxy Cloudflare Worker (evita CORS desde GitHub Pages)
-// ═══════════════════════════════════════
-const WORKER_URL = 'https://cotecafe-proxy.bastadexcusas.workers.dev/';
-
 async function callClaude(messages) {
   const key = getApiKey();
   if (!key) {
-    openApiKeyModal();
-    throw new Error('API key no configurada');
+    abrirApiKeyModal();
+    throw new Error('Falta la API key de Anthropic. Se ha abierto el modal de configuración.');
   }
-  const r = await fetch(WORKER_URL, {
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': key,
-      'anthropic-version': '2023-06-01'
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
     },
-    body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, messages })
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages })
   });
-  if (!r.ok) {
-    const errBody = await r.json().catch(() => ({}));
-    const msg = errBody?.error?.message || r.statusText;
-    throw new Error(`Error ${r.status} — ${msg}`);
+  if (r.status === 401 || r.status === 403) {
+    alert('La API key de Anthropic no es válida o ha caducado. Vuelve a configurarla.');
+    abrirApiKeyModal();
+    throw new Error('Anthropic API HTTP ' + r.status);
   }
+  if (!r.ok) throw new Error('Anthropic API HTTP ' + r.status);
   return r.json();
 }
 
@@ -1014,18 +1090,28 @@ function toB64(file) {
 // ═══════════════════════════════════════
 // RELLENAR FORMULARIOS
 // ═══════════════════════════════════════
-function fillRecepcion(d) {
-  if (d.proveedor) document.getElementById('r-proveedor').value = d.proveedor;
-  if (d.rgseaa) document.getElementById('r-rgseaa').value = d.rgseaa;
-  if (d.factura) document.getElementById('r-factura').value = d.factura;
-  if (d.fecha_factura) document.getElementById('r-fecha-factura').value = d.fecha_factura;
-  if (d.origen) document.getElementById('r-origen').value = d.origen;
-  if (d.region) document.getElementById('r-region').value = d.region;
-  if (d.variedad) document.getElementById('r-variedad').value = d.variedad;
-  if (d.productor) document.getElementById('r-productor').value = d.productor;
-  if (d.proceso) document.getElementById('r-proceso').value = d.proceso;
-  if (d.kg) document.getElementById('r-kg').value = d.kg;
-  if (d.lote_proveedor) document.getElementById('r-lote-proveedor').value = d.lote_proveedor;
+function fillRecepcion(d, tipo) {
+  // SACO → solo campos del café. NUNCA toca admin.
+  if (tipo === 'saco') {
+    if (d.origen)         document.getElementById('r-origen').value = d.origen;
+    if (d.region)         document.getElementById('r-region').value = d.region;
+    if (d.variedad)       document.getElementById('r-variedad').value = d.variedad;
+    if (d.productor)      document.getElementById('r-productor').value = d.productor;
+    if (d.proceso)        document.getElementById('r-proceso').value = d.proceso;
+    if (d.kg)             document.getElementById('r-kg').value = d.kg;
+    if (d.lote_proveedor) document.getElementById('r-lote-proveedor').value = d.lote_proveedor;
+    return;
+  }
+  // FACTURA → solo campos administrativos. NUNCA toca café.
+  if (tipo === 'factura') {
+    if (d.proveedor)        document.getElementById('r-proveedor').value = d.proveedor;
+    if (d.cif)              document.getElementById('r-cif').value = d.cif;
+    if (d.factura)          document.getElementById('r-factura').value = d.factura;
+    if (d.fecha_factura)    document.getElementById('r-fecha-factura').value = d.fecha_factura;
+    if (d.precio_kg)        document.getElementById('r-precio-kg').value = d.precio_kg;
+    if (d.condiciones_pago) document.getElementById('r-condiciones').value = d.condiciones_pago;
+    return;
+  }
 }
 
 function fillPases(pases) {
@@ -1060,12 +1146,12 @@ function renderPases() {
     </div>`;
   }).join('');
 
-  const totKgin  = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_in)  || 0), 0);
-  const totKgout = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_out) || 0), 0);
+  const totKgin = pasesActivos.reduce((s,p) => s + (p.kg_in||0), 0);
+  const totKgout = pasesActivos.reduce((s,p) => s + (p.kg_out||0), 0);
   const merma = totKgin > 0 ? ((totKgin - totKgout) / totKgin * 100).toFixed(1) : '0.0';
-  document.getElementById('tot-pases').textContent  = pasesActivos.length;
-  document.getElementById('tot-kgin').textContent   = totKgin.toFixed(3)  + ' kg';
-  document.getElementById('tot-kgout').textContent  = totKgout.toFixed(3) + ' kg';
+  document.getElementById('tot-pases').textContent = pasesActivos.length;
+  document.getElementById('tot-kgin').textContent = totKgin.toFixed(3) + ' kg';
+  document.getElementById('tot-kgout').textContent = totKgout.toFixed(3) + ' kg';
   document.getElementById('tot-merma').textContent = merma + '%';
 
   const allOk = pasesActivos.every(p => p.temp_max >= 200);
@@ -1093,7 +1179,16 @@ function guardarPaseManual() {
   const kgout = parseFloat(document.getElementById('pm-kgout').value) || 0;
   const temp = parseFloat(document.getElementById('pm-temp').value) || 0;
   const tiempo = document.getElementById('pm-tiempo').value;
-  if (!kgin && !temp) { alert('Introduce al menos el peso de entrada y la temperatura máxima.'); return; }
+  if (!temp) {
+    alert('La temperatura máxima es PCC-2. Introduce la temperatura alcanzada en este pase.');
+    document.getElementById('pm-temp').focus();
+    return;
+  }
+  if (!kgin) {
+    alert('Introduce los kg de entrada del pase.');
+    document.getElementById('pm-kgin').focus();
+    return;
+  }
   pasesActivos.push({ kg_in: kgin, kg_out: kgout, temp_max: temp, tiempo });
   ['pm-kgin','pm-kgout','pm-temp','pm-tiempo'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('pase-manual-form').style.display = 'none';
@@ -1130,7 +1225,8 @@ function genCodigo(fechaFactura, origen) {
   return `COTE-${yyyy}-${mm}-${dd}-${orig}`;
 }
 
-function crearLote() {
+async function crearLote() {
+  if (!appLista) { alert('Espera a que terminen de cargar los datos.'); return; }
   const proveedor = document.getElementById('r-proveedor').value.trim();
   const origen = document.getElementById('r-origen').value.trim();
   const factura = document.getElementById('r-factura').value.trim();
@@ -1138,51 +1234,59 @@ function crearLote() {
   const ota = parseFloat(document.getElementById('r-ota').value);
   if (ota >= 5) { if (!confirm('⚠ OTA supera el límite legal. ¿Registrar igualmente para documentar la incidencia?')) return; }
 
-  const codigo = genCodigo(document.getElementById('r-fecha-factura').value, origen);
-  const lote = {
+  const fechaFactura = document.getElementById('r-fecha-factura').value;
+  const codigo = genCodigo(fechaFactura, origen);
+
+  const rec = {
     id: Date.now(),
     codigo,
-    estado: 'pendiente',
-    recepcion: {
-      proveedor,
-      rgseaa: document.getElementById('r-rgseaa').value,
-      factura,
-      fecha_factura: document.getElementById('r-fecha-factura').value,
-      origen,
-      region: document.getElementById('r-region').value,
-      variedad: document.getElementById('r-variedad').value,
-      productor: document.getElementById('r-productor').value,
-      proceso: document.getElementById('r-proceso').value,
-      kg: document.getElementById('r-kg').value,
-      lote_proveedor: document.getElementById('r-lote-proveedor').value,
-      ota: document.getElementById('r-ota').value,
-      ota_cert: document.getElementById('r-ota-cert').value,
-      inspeccion: document.getElementById('r-inspeccion').value,
-      obs: document.getElementById('r-obs').value,
-    },
-    tostado: null,
-    etiqueta: null,
+    fecha_recepcion: fechaFactura || new Date().toISOString().split('T')[0],
+    proveedor,
+    origen,
+    variedad: document.getElementById('r-variedad').value,
+    proceso: document.getElementById('r-proceso').value,
+    productor: document.getElementById('r-productor').value,
+    kg_recibidos: parseFloat(document.getElementById('r-kg').value) || 0,
+    certificado_ota: document.getElementById('r-ota-cert').value,
+    // resto de datos (se conservan en el JSON, no son columnas planas)
+    cif: document.getElementById('r-cif').value,
+    rgseaa: document.getElementById('r-rgseaa').value,
+    factura,
+    fecha_factura: fechaFactura,
+    precio_kg: document.getElementById('r-precio-kg').value,
+    condiciones_pago: document.getElementById('r-condiciones').value,
+    region: document.getElementById('r-region').value,
+    lote_proveedor: document.getElementById('r-lote-proveedor').value,
+    ota_value: document.getElementById('r-ota').value,
+    inspeccion: document.getElementById('r-inspeccion').value,
+    obs: document.getElementById('r-obs').value,
     creado: new Date().toISOString()
   };
-  lotes.unshift(lote);
-  save(lote);
-  loteActivo = lote;
+
+  const ok = await saveRecepcion(rec);
+  if (!ok) return;
+
+  recepciones.unshift(rec);
+  document.getElementById('badge-count').textContent = recepciones.length;
+  recepcionActiva = rec;
   pasesActivos = [];
   limpiarRecepcion();
   populateLoteSelector();
-  cargarLote(lote.id);
+  cargarLote(rec.id);
   showView('tostado', null);
   document.querySelectorAll('.nav-btn')[1].classList.add('active');
   document.querySelectorAll('.nav-btn')[0].classList.remove('active');
 }
 
 function limpiarRecepcion() {
-  ['r-proveedor','r-rgseaa','r-factura','r-fecha-factura','r-origen','r-region',
-   'r-variedad','r-productor','r-proceso','r-kg','r-lote-proveedor','r-ota','r-obs']
+  ['r-proveedor','r-cif','r-rgseaa','r-factura','r-fecha-factura','r-precio-kg','r-condiciones',
+   'r-origen','r-region','r-variedad','r-productor','r-proceso','r-kg','r-lote-proveedor',
+   'r-ota','r-obs']
     .forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
   document.getElementById('r-ota-cert').value = '';
   document.getElementById('r-inspeccion').value = '';
   document.getElementById('ai-saco').classList.remove('visible');
+  document.getElementById('ai-factura').classList.remove('visible');
 }
 
 // ═══════════════════════════════════════
@@ -1191,58 +1295,87 @@ function limpiarRecepcion() {
 function populateLoteSelector() {
   const sel = document.getElementById('t-lote-sel');
   const prev = sel.value;
-  sel.innerHTML = '<option value="">— Seleccionar lote —</option>';
-  lotes
-    .filter(l => {
-      const { stockCls } = calcStockLote(l);
-      return stockCls === 'pendiente' || stockCls === 'parcial';
-    })
-    .forEach(l => {
-      const { stockTxt, kgPend } = calcStockLote(l);
-      const o = document.createElement('option');
-      o.value = l.id;
-      o.textContent = `${l.codigo} — ${l.recepcion.origen} — ${l.recepcion.proveedor}`
-                    + (stockTxt === 'Parcialmente tostado' ? ` [Parcial · ${kgPend.toFixed(3)} kg pend.]` : '');
-      sel.appendChild(o);
-    });
-  if (loteActivo) { sel.value = loteActivo.id; cargarLote(loteActivo.id); }
-  else if (prev) sel.value = prev;
+  sel.innerHTML = '<option value="">— Seleccionar saco con kg pendientes —</option>';
+  const disponibles = recepcionesDisponiblesParaTostar();
+  disponibles.forEach(r => {
+    const s = getStock(r);
+    const o = document.createElement('option');
+    o.value = r.id;
+    o.textContent = `${r.codigo} — ${r.origen} — ${s.pendiente.toFixed(1)} kg pendientes`;
+    sel.appendChild(o);
+  });
+  if (recepcionActiva) {
+    const stillAvailable = disponibles.find(r => String(r.id) === String(recepcionActiva.id));
+    if (stillAvailable) { sel.value = recepcionActiva.id; cargarLote(recepcionActiva.id); }
+  } else if (prev) sel.value = prev;
 }
 
 function cargarLote(id) {
   const form = document.getElementById('t-form');
   const empty = document.getElementById('t-empty');
   if (!id) { form.style.display = 'none'; empty.style.display = 'block'; return; }
-  const lote = lotes.find(l => l.id == id);
-  if (!lote) return;
-  loteActivo = lote;
+  const rec = recepciones.find(r => String(r.id) === String(id));
+  if (!rec) return;
+  recepcionActiva = rec;
   form.style.display = 'block';
   empty.style.display = 'none';
-  document.getElementById('t-codigo').value = lote.codigo;
-  document.getElementById('t-origen').value = `${lote.recepcion.origen}${lote.recepcion.region ? ' — ' + lote.recepcion.region : ''}`;
+
+  const stock = getStock(rec);
+  const proximaSesion = stock.sesiones + 1;
+  const sufijo = '-T' + String(proximaSesion).padStart(2, '0');
+
+  document.getElementById('t-codigo').value = rec.codigo + sufijo;
+  document.getElementById('t-origen').value = `${rec.origen}${rec.region ? ' — ' + rec.region : ''}`;
   document.getElementById('t-fecha').value = new Date().toISOString().split('T')[0];
+
+  document.getElementById('t-stock-recibidos').textContent = stock.recibidos.toFixed(1) + ' kg';
+  document.getElementById('t-stock-tostados').textContent = stock.tostado.toFixed(1) + ' kg';
+  document.getElementById('t-stock-pendientes').textContent = stock.pendiente.toFixed(1) + ' kg';
+  document.getElementById('t-stock-sesiones').textContent = stock.sesiones;
 }
 
-function cerrarTostado() {
-  if (!loteActivo) return;
+async function cerrarTostado() {
+  if (!recepcionActiva) return;
   const fecha = document.getElementById('t-fecha').value;
   const cata = document.getElementById('t-cata').value;
   const sellado = document.getElementById('t-sellado').value;
   if (!fecha || !cata || !sellado) { alert('Rellena como mínimo: Fecha de tostado, Resultado cata y Sellado.'); return; }
   if (!pasesActivos.length) { alert('Añade al menos un pase de tostado.'); return; }
 
+  // PCC-2: la temperatura máxima de cada pase es OBLIGATORIA
+  const sinTemp = pasesActivos.findIndex(p => !p.temp_max || p.temp_max <= 0);
+  if (sinTemp >= 0) {
+    alert(`El pase ${sinTemp+1} no tiene temperatura máxima registrada.\n\nLa temperatura es PCC-2 del APPCC y no puede quedar vacía. Borra el pase y añádelo de nuevo manualmente con la temperatura alcanzada antes de continuar.`);
+    return;
+  }
+
   const allTempOk = pasesActivos.every(p => p.temp_max >= 200);
   const hayNC = !allTempOk || sellado === 'nc' || cata === 'rechazado';
 
-  const totKgin  = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_in)  || 0), 0);
-  const totKgout = pasesActivos.reduce((s,p) => s + (parseFloat(p.kg_out) || 0), 0);
+  const totKgin = pasesActivos.reduce((s, p) => s + (p.kg_in || 0), 0);
+  const totKgout = pasesActivos.reduce((s, p) => s + (p.kg_out || 0), 0);
+  const tempMax  = pasesActivos.reduce((m, p) => Math.max(m, p.temp_max || 0), 0);
 
-  loteActivo.tostado = {
-    fecha,
+  // aviso si se exceden los kg pendientes del saco
+  const stock = getStock(recepcionActiva);
+  if (totKgin > stock.pendiente + TOL_KG) {
+    if (!confirm(`⚠ Estás registrando ${totKgin.toFixed(2)} kg de café verde pero solo quedan ${stock.pendiente.toFixed(2)} kg pendientes en este saco. ¿Continuar igualmente?`)) return;
+  }
+
+  const numeroSesion = stock.sesiones + 1;
+  const sufijo = '-T' + String(numeroSesion).padStart(2, '0');
+
+  const tostado = {
+    id: Date.now(),
+    recepcion_id: recepcionActiva.id,
+    numero_sesion: numeroSesion,
+    fecha_tostado: fecha,
+    kg_verde_entrada: parseFloat(totKgin.toFixed(3)),
+    kg_tostado_salida: parseFloat(totKgout.toFixed(3)),
+    temperatura_max: parseFloat(tempMax.toFixed(1)),
+    pcc_conforme: !hayNC,
     pases: [...pasesActivos],
-    total_kg_in: totKgin.toFixed(3),
-    total_kg_out: totKgout.toFixed(3),
-    merma: totKgin > 0 ? ((totKgin-totKgout)/totKgin*100).toFixed(1)+'%' : '—',
+    merma: totKgin > 0 ? ((totKgin - totKgout) / totKgin * 100).toFixed(1) + '%' : '—',
     color: document.getElementById('t-color').value,
     cata,
     cata_obs: document.getElementById('t-cata-obs').value,
@@ -1251,11 +1384,15 @@ function cerrarTostado() {
     presentacion: document.getElementById('t-presentacion').value,
     sellado,
     incidencias: document.getElementById('t-incidencias').value,
-    pcc_conforme: !hayNC
+    creado: new Date().toISOString()
   };
-  loteActivo.estado = hayNC ? 'incidencia' : 'en-etiquetado';
-  save(loteActivo);
-  generarEtiqueta(loteActivo);
+  tostado.etiqueta = computeEtiqueta(tostado, recepcionActiva, sufijo);
+
+  const ok = await saveTostado(tostado);
+  if (!ok) return;
+
+  tostados.push(tostado);
+  renderEtiqueta(tostado);
   showView('etiqueta', null);
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.nav-btn')[2].classList.add('active');
@@ -1264,46 +1401,68 @@ function cerrarTostado() {
 // ═══════════════════════════════════════
 // ETIQUETA
 // ═══════════════════════════════════════
-function generarEtiqueta(lote) {
-  if (!lote?.tostado) return;
-  const t = lote.tostado;
-  const d = new Date(t.fecha);
+function computeEtiqueta(t, rec, sufijo) {
+  const d = new Date(t.fecha_tostado);
   const presentacion = t.presentacion;
-
-  const fmt = dt => `${String(dt.getDate()).padStart(2,'0')} / ${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
+  const fmt    = dt => `${String(dt.getDate()).padStart(2,'0')} / ${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
   const fmtMes = dt => `${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
-
-  const consLegal = new Date(d); consLegal.setMonth(consLegal.getMonth() + (presentacion === 'molido' ? 9 : 12));
+  const consLegal   = new Date(d); consLegal.setMonth(consLegal.getMonth()     + (presentacion === 'molido' ? 9 : 12));
   const consCalidad = new Date(d); consCalidad.setMonth(consCalidad.getMonth() + (presentacion === 'molido' ? 4 : 6));
+  return {
+    codigo: rec.codigo + sufijo,
+    fecha: fmt(d),
+    cons_legal: fmtMes(consLegal),
+    cons_calidad: fmtMes(consCalidad)
+  };
+}
 
-  const fechaStr = fmt(d);
-  const consLegalStr = fmtMes(consLegal);
-  const consCalidadStr = fmtMes(consCalidad);
-  const loteStr = 'L: ' + lote.codigo;
-  const presStr = presentacion === 'molido' ? 'Molido' : 'En grano';
+// ÚNICA fuente de verdad del contenido de la etiqueta secundaria 62×40mm.
+// La usan tanto la vista previa en pantalla como el contenedor de impresión.
+function buildEtiquetaHtml(e) {
+  if (!e) return '';
+  return `
+    <div class="et-brand">COTÉ CAFÉ ROASTERS</div>
+    <hr class="et-hr">
+    <div class="et-row"><span class="et-lbl">LOTE</span><span class="et-lote">L: ${e.codigo}</span></div>
+    <div class="et-row"><span class="et-lbl">TOSTADO EL</span><span class="et-val">${e.fecha}</span></div>
+    <div class="et-row"><span class="et-lbl">CONS. PREF.</span><span class="et-val">${e.cons_legal}</span></div>
+    <div class="et-row"><span class="et-lbl">MEJOR ANTES</span><span class="et-val">${e.cons_calidad}</span></div>
+    <hr class="et-hr">
+    <div class="et-cons">Conservar en lugar fresco, seco y alejado de la luz directa.</div>
+    <div class="et-nutr">No destaca el valor nutricional</div>
+  `;
+}
 
-  document.getElementById('et-fecha').textContent = fechaStr;
-  document.getElementById('et-cons-legal').textContent = consLegalStr;
-  document.getElementById('et-cons-calidad').textContent = consCalidadStr;
-  document.getElementById('et-lote').textContent = loteStr;
-  document.getElementById('et-f-lote').value = loteStr;
-  document.getElementById('et-f-fecha').value = fechaStr;
-  document.getElementById('et-f-cons-legal').value = consLegalStr;
-  document.getElementById('et-f-cons-calidad').value = consCalidadStr;
-  document.getElementById('et-f-presentacion').value = presStr;
-
-  lote.etiqueta = { fecha: fechaStr, cons_legal: consLegalStr, cons_calidad: consCalidadStr, lote_code: loteStr, presentacion: presStr };
-  save(lote);
-
-  document.getElementById('et-empty').style.display = 'none';
+function renderEtiqueta(t) {
+  const e = t?.etiqueta;
+  if (!e) return;
+  const html = buildEtiquetaHtml(e);
+  document.getElementById('etiqueta-preview').innerHTML = html;
+  document.getElementById('print-etiqueta').innerHTML  = html;
+  document.getElementById('et-f-lote').value         = 'L: ' + e.codigo;
+  document.getElementById('et-f-fecha').value        = e.fecha;
+  document.getElementById('et-f-cons-legal').value   = e.cons_legal;
+  document.getElementById('et-f-cons-calidad').value = e.cons_calidad;
+  document.getElementById('et-empty').style.display   = 'none';
   document.getElementById('et-content').style.display = 'block';
 }
 
+function populatePrintEtiqueta(t) {
+  const e = t?.etiqueta;
+  if (!e) return;
+  document.getElementById('print-etiqueta').innerHTML = buildEtiquetaHtml(e);
+}
+
+function imprimirEtiquetaTostado(id) {
+  const t = tostados.find(x => String(x.id) === String(id));
+  if (!t || !t.etiqueta) { alert('Este tostado no tiene etiqueta generada.'); return; }
+  populatePrintEtiqueta(t);
+  window.print();
+}
+
 function finalizarLote() {
-  if (!loteActivo) return;
-  loteActivo.estado = loteActivo.tostado?.pcc_conforme ? 'completo' : 'incidencia';
-  save(loteActivo);
-  loteActivo = null;
+  // El tostado ya se ha guardado en cerrarTostado(). Aquí solo limpiamos UI.
+  recepcionActiva = null;
   pasesActivos = [];
 
   ['t-color','t-cata-obs','t-bolsas','t-incidencias'].forEach(id => { document.getElementById(id).value = ''; });
@@ -1319,36 +1478,11 @@ function finalizarLote() {
   document.getElementById('et-content').style.display = 'none';
   document.getElementById('ai-roastime').classList.remove('visible');
   document.getElementById('pcc2-estado').innerHTML = '<span style="font-size:12px;color:rgba(26,14,8,0.3);">Pendiente</span>';
+  populateLoteSelector();
 
   showView('historial', null);
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.nav-btn')[3].classList.add('active');
-}
-
-// ═══════════════════════════════════════
-// STOCK — helper por lote
-// ═══════════════════════════════════════
-function calcStockLote(lote) {
-  const kgRec = parseFloat(lote.recepcion.kg) || 0;
-  // Suma de kg verde usados en todos los tostados que comparten el mismo código de lote
-  const kgTostado = lotes
-    .filter(l => l.codigo === lote.codigo && l.tostado)
-    .reduce((s, l) => s + (parseFloat(l.tostado.total_kg_in) || 0), 0);
-  const kgPend = Math.max(0, kgRec - kgTostado);
-
-  let stockCls, stockTxt;
-  if (kgRec === 0) {
-    // Sin kg registrados: usar estado del lote como fallback
-    stockCls = lote.tostado ? 'completo' : 'pendiente';
-    stockTxt = lote.tostado ? 'Tostado completo' : 'Pendiente tostado';
-  } else if (kgTostado === 0) {
-    stockCls = 'pendiente'; stockTxt = 'Pendiente tostado';
-  } else if (kgTostado >= kgRec) {
-    stockCls = 'completo';  stockTxt = 'Tostado completo';
-  } else {
-    stockCls = 'parcial';   stockTxt = 'Parcialmente tostado';
-  }
-  return { kgRec, kgTostado, kgPend, stockCls, stockTxt };
 }
 
 // ═══════════════════════════════════════
@@ -1357,169 +1491,125 @@ function calcStockLote(lote) {
 function renderHistorial() {
   const q = document.getElementById('h-search').value.toLowerCase();
   const f = document.getElementById('h-filter').value;
+  const container = document.getElementById('historial-list');
 
-  // ── ENTRADAS — Café Verde ──
-  const entradas = lotes.filter(l => {
-    const txt = [l.codigo, l.recepcion.proveedor, l.recepcion.origen,
-                 l.recepcion.variedad||'', l.recepcion.factura||'',
-                 l.recepcion.productor||''].join(' ').toLowerCase();
-    return !q || txt.includes(q);
+  const filtered = recepciones.filter(r => {
+    const txt = [r.codigo, r.origen, r.proveedor, r.variedad || ''].join(' ').toLowerCase();
+    if (q && !txt.includes(q)) return false;
+    if (f) {
+      const e = computeEstadoRecepcion(r);
+      if (f === 'pendiente' && !(e === 'pendiente' || e === 'en-curso')) return false;
+      if (f === 'completo' && e !== 'agotado') return false;
+      if (f === 'incidencia' && e !== 'incidencia') return false;
+    }
+    return true;
   });
 
-  const contEntradas = document.getElementById('historial-entradas');
-  if (!entradas.length) {
-    contEntradas.innerHTML = `<div class="empty-state" style="padding:30px 20px;">
-      <div class="empty-icon" style="font-size:28px;">📦</div>
-      <p>${lotes.length === 0 ? 'Aún no hay recepciones. Empieza en el Paso 1.' : 'No hay entradas con ese filtro.'}</p>
-    </div>`;
-  } else {
-    contEntradas.innerHTML = entradas.map(l => {
-      const r = l.recepcion;
-      const fecha = new Date(l.creado).toLocaleDateString('es-ES');
-      const { kgRec, kgTostado, kgPend, stockCls, stockTxt } = calcStockLote(l);
-      const otaNc    = r.ota && parseFloat(r.ota) >= 5;
-      const inspecNc = r.inspeccion && r.inspeccion !== 'ok';
-
-      // Línea de stock (solo si hay kg registrados)
-      const stockLine = kgRec > 0
-        ? `<div class="kg-stock">
-            Recibido: <strong>${kgRec.toFixed(3)} kg</strong>
-            &nbsp;·&nbsp; Tostado: <strong>${kgTostado.toFixed(3)} kg</strong>
-            &nbsp;·&nbsp; Pendiente: <strong>${kgPend.toFixed(3)} kg</strong>
-           </div>`
-        : '';
-
-      return `<div class="lote-card" onclick="openModal(${l.id})">
-        <div style="flex:1;min-width:0;">
-          <div class="lote-code">${l.codigo}</div>
-          <div class="lote-meta">${r.proveedor} · ${r.origen}${r.region ? ' — '+r.region : ''}${r.variedad ? ' · '+r.variedad : ''} · ${fecha}</div>
-          ${stockLine}
-        </div>
-        <div class="lote-right" style="flex-shrink:0;">
-          <span class="status ${stockCls}">${stockTxt}</span>
-          ${otaNc || inspecNc ? `<span class="status incidencia">Incidencia</span>` : ''}
-        </div>
-      </div>`;
-    }).join('');
+  if (!filtered.length) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">☕</div><p>${recepciones.length===0 ? 'Aún no hay recepciones. Empieza subiendo la foto de un saco.' : 'No hay recepciones con esos filtros.'}</p></div>`;
+    return;
   }
 
-  // ── SALIDAS — Lotes Tostados ──
-  const salidas = lotes.filter(l => {
-    if (!l.tostado) return false;
-    const txt = [l.codigo, l.recepcion.origen, l.recepcion.proveedor,
-                 l.recepcion.variedad||'', l.recepcion.factura||''].join(' ').toLowerCase();
-    const matchTxt = !q || txt.includes(q);
-    const matchF   = !f || l.estado === f ||
-                     (f === 'pendiente' && (l.estado === 'pendiente' || l.estado === 'en-etiquetado'));
-    return matchTxt && matchF;
-  });
+  const estadoMap = {
+    'pendiente': ['pendiente', 'Sin tostar'],
+    'en-curso':  ['pendiente', 'En curso'],
+    'agotado':   ['completo',  'Agotado'],
+    'incidencia':['incidencia','Con incidencia']
+  };
 
-  const contSalidas = document.getElementById('historial-salidas');
-  const totalTostados = lotes.filter(l => l.tostado).length;
-  if (!salidas.length) {
-    contSalidas.innerHTML = `<div class="empty-state" style="padding:30px 20px;">
-      <div class="empty-icon" style="font-size:28px;">☕</div>
-      <p>${totalTostados === 0 ? 'Aún no hay lotes tostados.' : 'No hay salidas con esos filtros.'}</p>
+  container.innerHTML = filtered.map(r => {
+    const stock = getStock(r);
+    const estado = computeEstadoRecepcion(r);
+    const [cls, txt] = estadoMap[estado];
+    const fecha = r.fecha_recepcion ? new Date(r.fecha_recepcion).toLocaleDateString('es-ES') : '—';
+    return `<div class="lote-card" onclick="openModalRecepcion(${r.id})">
+      <div style="flex:1;">
+        <div class="lote-code">${r.codigo}</div>
+        <div class="lote-meta">${r.proveedor || '—'} · ${r.origen || '—'}${r.variedad ? ' · ' + r.variedad : ''} · ${fecha}</div>
+        <div class="lote-meta" style="margin-top:4px;font-family:'DM Mono',monospace;color:rgba(26,14,8,0.55);">
+          ${stock.recibidos.toFixed(1)} kg recibidos · ${stock.tostado.toFixed(1)} kg tostados · <strong style="color:var(--caramel);">${stock.pendiente.toFixed(1)} kg pendientes</strong>${stock.sesiones ? ' · ' + stock.sesiones + ' sesión' + (stock.sesiones>1?'es':'') : ''}
+        </div>
+      </div>
+      <div class="lote-right">
+        <span class="status ${cls}">${txt}</span>
+      </div>
     </div>`;
-  } else {
-    const estadoMap = {
-      completo:        ['completo',  'Completo'],
-      pendiente:       ['pendiente', 'Pendiente etiqueta'],
-      'en-etiquetado': ['pendiente', 'Pendiente etiqueta'],
-      incidencia:      ['incidencia','Con incidencia']
-    };
-    contSalidas.innerHTML = salidas.map(l => {
-      const [cls, txt] = estadoMap[l.estado] || ['pendiente', l.estado];
-      const t     = l.tostado;
-      const pases = t.pases?.length || 0;
-      const kgIn  = parseFloat(t.total_kg_in)  || 0;
-      const kgOut = parseFloat(t.total_kg_out) || 0;
-      return `<div class="lote-card" onclick="openModal(${l.id})">
-        <div style="flex:1;min-width:0;">
-          <div class="lote-code">${l.codigo}</div>
-          <div class="lote-meta">${l.recepcion.origen}${l.recepcion.variedad ? ' · '+l.recepcion.variedad : ''} · ${t.fecha}</div>
-          <div class="kg-stock">
-            Verde entrada: <strong>${kgIn.toFixed(3)} kg</strong>
-            &nbsp;→&nbsp; Tostado obtenido: <strong>${kgOut.toFixed(3)} kg</strong>
-            &nbsp;·&nbsp; Merma: <strong>${t.merma}</strong>
-          </div>
-        </div>
-        <div class="lote-right" style="flex-shrink:0;">
-          ${pases ? `<span class="lote-pases">${pases} pase${pases>1?'s':''}</span>` : ''}
-          ${l.etiqueta ? `<button class="btn btn-secondary" style="padding:4px 10px;font-size:11px;" onclick="event.stopPropagation();imprimirEtiquetaDesdeHistorial(${l.id})">🖨 Etiqueta</button>` : ''}
-          <span class="status ${cls}">${txt}</span>
-        </div>
-      </div>`;
-    }).join('');
-  }
+  }).join('');
 }
 
 // ═══════════════════════════════════════
-// MODAL DETALLE
+// MODAL — RECEPCIÓN Y TOSTADO
 // ═══════════════════════════════════════
-function openModal(id) {
-  const lote = lotes.find(l => l.id === id);
-  if (!lote) return;
-  document.getElementById('modal-title').textContent = lote.codigo;
-  const r = lote.recepcion;
-  const t = lote.tostado;
-  const e = lote.etiqueta;
+function openModalRecepcion(id) {
+  const rec = recepciones.find(r => String(r.id) === String(id));
+  if (!rec) return;
+  const stock = getStock(rec);
+  const linked = tostadosDeRecepcion(rec.id);
+
+  document.getElementById('modal-title').textContent = rec.codigo;
 
   let html = '';
+
+  html += `<div class="totales-box" style="margin-bottom:18px;">
+    <div class="total-item"><div class="total-label">Recibidos</div><div class="total-value">${stock.recibidos.toFixed(1)} kg</div></div>
+    <div class="total-item"><div class="total-label">Tostados</div><div class="total-value">${stock.tostado.toFixed(1)} kg</div></div>
+    <div class="total-item"><div class="total-label">Pendientes</div><div class="total-value" style="color:var(--caramel);">${stock.pendiente.toFixed(1)} kg</div></div>
+    <div class="total-item"><div class="total-label">Sesiones</div><div class="total-value">${stock.sesiones}</div></div>
+  </div>`;
 
   html += `<div class="detail-section">
     <div class="detail-title" style="display:flex;justify-content:space-between;align-items:center;">
       Recepción
-      <button class="btn btn-secondary" style="padding:4px 12px;font-size:11px;" onclick="editLote(${id})">✏ Editar</button>
+      <button class="btn btn-secondary" style="padding:4px 12px;font-size:11px;" onclick="editRecepcion(${rec.id})">✏ Editar</button>
     </div>
     <div class="detail-grid">
-      <span class="detail-key">Proveedor</span><span class="detail-val">${r.proveedor}</span>
-      <span class="detail-key">Factura</span><span class="detail-val">${r.factura}</span>
-      <span class="detail-key">Fecha factura</span><span class="detail-val">${r.fecha_factura||'—'}</span>
-      <span class="detail-key">Origen</span><span class="detail-val">${r.origen}${r.region ? ' — ' + r.region : ''}</span>
-      <span class="detail-key">Variedad</span><span class="detail-val">${r.variedad||'—'}</span>
-      <span class="detail-key">Productor</span><span class="detail-val">${r.productor||'—'}</span>
-      <span class="detail-key">Proceso</span><span class="detail-val">${r.proceso||'—'}</span>
-      <span class="detail-key">Kg recibidos</span><span class="detail-val">${r.kg||'—'}</span>
-      <span class="detail-key">Lote proveedor</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:12px;">${r.lote_proveedor||'—'}</span>
-      <span class="detail-key">RGSEAA proveedor</span><span class="detail-val">${r.rgseaa||'—'}</span>
-      <span class="detail-key">OTA</span><span class="detail-val">${r.ota ? r.ota + ' µg/kg' : '—'} · Cert: ${r.ota_cert||'—'}</span>
-      <span class="detail-key">Inspección</span><span class="detail-val">${r.inspeccion||'—'}</span>
-      <span class="detail-key">Observaciones</span><span class="detail-val">${r.obs||'—'}</span>
+      <span class="detail-key">Proveedor</span><span class="detail-val">${rec.proveedor||'—'}</span>
+      <span class="detail-key">CIF</span><span class="detail-val">${rec.cif||'—'}</span>
+      <span class="detail-key">Factura</span><span class="detail-val">${rec.factura||'—'}</span>
+      <span class="detail-key">Fecha factura</span><span class="detail-val">${rec.fecha_factura||'—'}</span>
+      <span class="detail-key">Precio/kg</span><span class="detail-val">${rec.precio_kg ? rec.precio_kg + ' €' : '—'}</span>
+      <span class="detail-key">Condiciones de pago</span><span class="detail-val">${rec.condiciones_pago||'—'}</span>
+      <span class="detail-key">Origen</span><span class="detail-val">${rec.origen||'—'}${rec.region ? ' — ' + rec.region : ''}</span>
+      <span class="detail-key">Variedad</span><span class="detail-val">${rec.variedad||'—'}</span>
+      <span class="detail-key">Productor</span><span class="detail-val">${rec.productor||'—'}</span>
+      <span class="detail-key">Proceso</span><span class="detail-val">${rec.proceso||'—'}</span>
+      <span class="detail-key">Kg recibidos</span><span class="detail-val">${rec.kg_recibidos||'—'}</span>
+      <span class="detail-key">Lote proveedor</span><span class="detail-val" style="font-family:'DM Mono',monospace;font-size:12px;">${rec.lote_proveedor||'—'}</span>
+      <span class="detail-key">RGSEAA proveedor</span><span class="detail-val">${rec.rgseaa||'—'}</span>
+      <span class="detail-key">OTA</span><span class="detail-val">${rec.ota_value ? rec.ota_value + ' µg/kg' : '—'} · Cert: ${rec.certificado_ota||'—'}</span>
+      <span class="detail-key">Inspección</span><span class="detail-val">${rec.inspeccion||'—'}</span>
+      <span class="detail-key">Observaciones</span><span class="detail-val">${rec.obs||'—'}</span>
     </div>
   </div>`;
 
-  if (t) {
-    const pcc = t.pcc_conforme;
+  if (linked.length) {
     html += `<div class="detail-section">
-      <div class="detail-title">Tostado — ${t.pases?.length||0} pases</div>
-      <div class="detail-grid">
-        <span class="detail-key">Fecha</span><span class="detail-val">${t.fecha}</span>
-        <span class="detail-key">PCC</span><span class="detail-val" style="color:${pcc?'var(--green)':'var(--red)'};font-weight:500;">${pcc?'✓ Conforme':'✗ No conforme'}</span>
-        <span class="detail-key">Kg entrada total</span><span class="detail-val">${t.total_kg_in} kg</span>
-        <span class="detail-key">Kg salida total</span><span class="detail-val">${t.total_kg_out} kg</span>
-        <span class="detail-key">Merma</span><span class="detail-val">${t.merma}</span>
-        <span class="detail-key">Cata</span><span class="detail-val">${t.cata}</span>
-        <span class="detail-key">Presentación</span><span class="detail-val">${t.presentacion} · ${t.formato}g · ${t.bolsas||'—'} bolsas</span>
-        <span class="detail-key">Sellado</span><span class="detail-val">${t.sellado}</span>
-      </div>
-      ${t.pases?.length ? `<div style="margin-top:10px;"><div style="font-size:11px;color:rgba(26,14,8,0.4);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Pases</div>${t.pases.map((p,i)=>`<div style="font-size:12px;font-family:'DM Mono',monospace;color:rgba(26,14,8,0.6);margin-bottom:3px;">Pase ${i+1}: ${p.kg_in}→${p.kg_out}kg · ${p.temp_max}°C · ${p.tiempo}</div>`).join('')}</div>` : ''}
-      ${t.incidencias ? `<div style="margin-top:8px;font-size:12px;background:var(--red-bg);color:var(--red);padding:8px 10px;border-radius:6px;">${t.incidencias}</div>` : ''}
+      <div class="detail-title">Tostados realizados (${linked.length})</div>
+      ${linked.map(t => {
+        const sufijo = '-T' + String(t.numero_sesion || 0).padStart(2, '0');
+        const codigoEt = rec.codigo + sufijo;
+        return `<div style="border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer;background:var(--milk);" onclick="openModalTostado(${t.id})">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--roast);font-weight:500;">${codigoEt}</div>
+              <div style="font-size:12px;color:rgba(26,14,8,0.5);margin-top:2px;">
+                ${t.fecha_tostado||'—'} · ${(parseFloat(t.kg_verde_entrada)||0).toFixed(2)}→${(parseFloat(t.kg_tostado_salida)||0).toFixed(2)} kg · ${(parseFloat(t.temperatura_max)||0).toFixed(1)}°C
+              </div>
+            </div>
+            <span class="status ${t.pcc_conforme ? 'completo' : 'incidencia'}">${t.pcc_conforme ? '✓ Conforme' : '✗ NC'}</span>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
-  }
-
-  if (e) {
+  } else {
     html += `<div class="detail-section">
-      <div class="detail-title">Etiqueta generada</div>
-      <div style="font-family:'DM Mono',monospace;font-size:12px;color:rgba(26,14,8,0.6);line-height:1.8;">
-        ${e.lote_code}<br>Tostado: ${e.fecha}<br>Cons. pref. (legal): ${e.cons_legal}<br>Mejor antes (calidad): ${e.cons_calidad}<br>${e.presentacion}
-      </div>
+      <div class="detail-title">Tostados realizados</div>
+      <div style="font-size:13px;color:rgba(26,14,8,0.4);">Aún no se ha tostado nada de este saco.</div>
     </div>`;
   }
 
   html += `<div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
-    <button class="btn btn-danger" onclick="deleteLote(${id})">Eliminar</button>
-    ${t ? `<button class="btn btn-secondary" onclick="imprimirEtiquetaDesdeHistorial(${id})">🖨 Imprimir etiqueta</button>` : ''}
+    <button class="btn btn-danger" onclick="confirmDeleteRecepcion(${rec.id})">Eliminar recepción</button>
     <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
   </div>`;
 
@@ -1527,87 +1617,340 @@ function openModal(id) {
   document.getElementById('modal').classList.add('open');
 }
 
-function editLote(id) {
-  const lote = lotes.find(l => l.id === id);
-  if (!lote) return;
-  const r = lote.recepcion;
+function openModalTostado(id) {
+  const t = tostados.find(x => String(x.id) === String(id));
+  if (!t) return;
+  const rec = recepciones.find(r => String(r.id) === String(t.recepcion_id));
+  const sufijo = '-T' + String(t.numero_sesion || 0).padStart(2, '0');
+  const codigoEt = (rec ? rec.codigo : '?') + sufijo;
 
-  document.getElementById('modal-title').textContent = 'Editar — ' + lote.codigo;
+  document.getElementById('modal-title').textContent = codigoEt;
+
+  let html = '';
+
+  html += `<div class="detail-section">
+    <div class="detail-title" style="display:flex;justify-content:space-between;align-items:center;">
+      Tostado — sesión ${t.numero_sesion||'?'}
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-secondary" style="padding:4px 12px;font-size:11px;" onclick="editTostado(${t.id})">✏ Editar</button>
+        <button class="btn btn-secondary" style="padding:4px 12px;font-size:11px;" onclick="openModalRecepcion(${t.recepcion_id})">↩ Saco</button>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <span class="detail-key">Saco origen</span><span class="detail-val">${rec?rec.codigo:'—'}</span>
+      <span class="detail-key">Fecha tostado</span><span class="detail-val">${t.fecha_tostado||'—'}</span>
+      <span class="detail-key">PCC</span><span class="detail-val" style="color:${t.pcc_conforme?'var(--green)':'var(--red)'};font-weight:500;">${t.pcc_conforme?'✓ Conforme':'✗ No conforme'}</span>
+      <span class="detail-key">Kg verde entrada</span><span class="detail-val">${(parseFloat(t.kg_verde_entrada)||0).toFixed(3)} kg</span>
+      <span class="detail-key">Kg tostado salida</span><span class="detail-val">${(parseFloat(t.kg_tostado_salida)||0).toFixed(3)} kg</span>
+      <span class="detail-key">Merma</span><span class="detail-val">${t.merma||'—'}</span>
+      <span class="detail-key">T.ª máx</span><span class="detail-val">${(parseFloat(t.temperatura_max)||0).toFixed(1)} °C</span>
+      <span class="detail-key">Cata</span><span class="detail-val">${t.cata||'—'}</span>
+      <span class="detail-key">Presentación</span><span class="detail-val">${t.presentacion||'—'} · ${t.formato||'—'}g · ${t.bolsas||'—'} bolsas</span>
+      <span class="detail-key">Sellado</span><span class="detail-val">${t.sellado||'—'}</span>
+    </div>
+    ${t.pases?.length ? `<div style="margin-top:10px;"><div style="font-size:11px;color:rgba(26,14,8,0.4);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Pases (${t.pases.length})</div>${t.pases.map((p,i)=>`<div style="font-size:12px;font-family:'DM Mono',monospace;color:rgba(26,14,8,0.6);margin-bottom:3px;">Pase ${i+1}: ${p.kg_in}→${p.kg_out}kg · ${p.temp_max}°C · ${p.tiempo||'—'}</div>`).join('')}</div>` : ''}
+    ${t.incidencias ? `<div style="margin-top:8px;font-size:12px;background:var(--red-bg);color:var(--red);padding:8px 10px;border-radius:6px;">${t.incidencias}</div>` : ''}
+  </div>`;
+
+  if (t.etiqueta) {
+    html += `<div class="detail-section">
+      <div class="detail-title">Etiqueta generada</div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;color:rgba(26,14,8,0.6);line-height:1.8;">
+        L: ${t.etiqueta.codigo}<br>Tostado: ${t.etiqueta.fecha}<br>Cons. pref. (legal): ${t.etiqueta.cons_legal}<br>Mejor antes (calidad): ${t.etiqueta.cons_calidad}
+      </div>
+    </div>`;
+  }
+
+  html += `<div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap;">
+    <button class="btn btn-danger" onclick="confirmDeleteTostado(${t.id})">Eliminar tostado</button>
+    ${t.etiqueta ? `<button class="btn btn-secondary" onclick="imprimirEtiquetaTostado(${t.id})">🖨 Imprimir etiqueta</button>` : ''}
+    <button class="btn btn-secondary" onclick="editTostado(${t.id})">✏ Editar tostado</button>
+    <button class="btn btn-caramel" onclick="openModalRecepcion(${t.recepcion_id})">Volver al saco</button>
+  </div>`;
+
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal').classList.add('open');
+}
+
+function editRecepcion(id) {
+  const rec = recepciones.find(r => String(r.id) === String(id));
+  if (!rec) return;
+
+  document.getElementById('modal-title').textContent = 'Editar — ' + rec.codigo;
   document.getElementById('modal-body').innerHTML = `
     <div class="form-grid cols2" style="gap:12px;margin-bottom:16px;">
-      <div class="form-group"><label>Proveedor</label><input type="text" id="e-proveedor" value="${r.proveedor||''}"></div>
-      <div class="form-group"><label>RGSEAA del distribuidor</label><input type="text" id="e-rgseaa" value="${r.rgseaa||''}"></div>
-      <div class="form-group"><label>N.º Factura</label><input type="text" id="e-factura" value="${r.factura||''}"></div>
-      <div class="form-group"><label>Fecha de factura</label><input type="date" id="e-fecha-factura" value="${r.fecha_factura||''}"></div>
-      <div class="form-group"><label>País de origen</label><input type="text" id="e-origen" value="${r.origen||''}"></div>
-      <div class="form-group"><label>Región</label><input type="text" id="e-region" value="${r.region||''}"></div>
-      <div class="form-group"><label>Variedad</label><input type="text" id="e-variedad" value="${r.variedad||''}"></div>
-      <div class="form-group"><label>Productor / Finca</label><input type="text" id="e-productor" value="${r.productor||''}"></div>
-      <div class="form-group"><label>Proceso</label><input type="text" id="e-proceso" value="${r.proceso||''}"></div>
-      <div class="form-group"><label>Kg recibidos</label><input type="number" id="e-kg" value="${r.kg||''}" step="0.1"></div>
-      <div class="form-group"><label>Lote del proveedor</label><input type="text" id="e-lote-proveedor" value="${r.lote_proveedor||''}"></div>
-      <div class="form-group"><label>OTA (µg/kg)</label><input type="number" id="e-ota" value="${r.ota||''}" step="0.1"></div>
+      <div class="form-group"><label>Proveedor</label><input type="text" id="e-proveedor" value="${rec.proveedor||''}"></div>
+      <div class="form-group"><label>CIF del distribuidor</label><input type="text" id="e-cif" value="${rec.cif||''}"></div>
+      <div class="form-group"><label>RGSEAA del distribuidor</label><input type="text" id="e-rgseaa" value="${rec.rgseaa||''}"></div>
+      <div class="form-group"><label>N.º Factura</label><input type="text" id="e-factura" value="${rec.factura||''}"></div>
+      <div class="form-group"><label>Fecha de factura</label><input type="date" id="e-fecha-factura" value="${rec.fecha_factura||''}"></div>
+      <div class="form-group"><label>Precio / kg (€)</label><input type="number" id="e-precio-kg" value="${rec.precio_kg||''}" step="0.01"></div>
+      <div class="form-group span2"><label>Condiciones de pago</label><input type="text" id="e-condiciones" value="${rec.condiciones_pago||''}"></div>
+      <div class="form-group"><label>País de origen</label><input type="text" id="e-origen" value="${rec.origen||''}"></div>
+      <div class="form-group"><label>Región</label><input type="text" id="e-region" value="${rec.region||''}"></div>
+      <div class="form-group"><label>Variedad</label><input type="text" id="e-variedad" value="${rec.variedad||''}"></div>
+      <div class="form-group"><label>Productor / Finca</label><input type="text" id="e-productor" value="${rec.productor||''}"></div>
+      <div class="form-group"><label>Proceso</label><input type="text" id="e-proceso" value="${rec.proceso||''}"></div>
+      <div class="form-group"><label>Kg recibidos</label><input type="number" id="e-kg" value="${rec.kg_recibidos||''}" step="0.1"></div>
+      <div class="form-group"><label>Lote del proveedor</label><input type="text" id="e-lote-proveedor" value="${rec.lote_proveedor||''}"></div>
+      <div class="form-group"><label>OTA (µg/kg)</label><input type="number" id="e-ota" value="${rec.ota_value||''}" step="0.1"></div>
       <div class="form-group"><label>Certificado OTA</label>
         <select id="e-ota-cert">
           <option value="">— —</option>
-          <option value="si" ${r.ota_cert==='si'?'selected':''}>Sí — adjunto</option>
-          <option value="solicitado" ${r.ota_cert==='solicitado'?'selected':''}>Solicitado</option>
-          <option value="no" ${r.ota_cert==='no'?'selected':''}>No disponible</option>
+          <option value="si" ${rec.certificado_ota==='si'?'selected':''}>Sí — adjunto</option>
+          <option value="solicitado" ${rec.certificado_ota==='solicitado'?'selected':''}>Solicitado</option>
+          <option value="no" ${rec.certificado_ota==='no'?'selected':''}>No disponible</option>
         </select>
       </div>
       <div class="form-group"><label>Inspección visual</label>
         <select id="e-inspeccion">
           <option value="">— —</option>
-          <option value="ok" ${r.inspeccion==='ok'?'selected':''}>✓ Sin anomalías</option>
-          <option value="humedad" ${r.inspeccion==='humedad'?'selected':''}>Humedad</option>
-          <option value="plagas" ${r.inspeccion==='plagas'?'selected':''}>Plagas</option>
-          <option value="olor" ${r.inspeccion==='olor'?'selected':''}>Olores anómalos</option>
-          <option value="dano" ${r.inspeccion==='dano'?'selected':''}>Daño físico</option>
+          <option value="ok" ${rec.inspeccion==='ok'?'selected':''}>✓ Sin anomalías</option>
+          <option value="humedad" ${rec.inspeccion==='humedad'?'selected':''}>Humedad</option>
+          <option value="plagas" ${rec.inspeccion==='plagas'?'selected':''}>Plagas</option>
+          <option value="olor" ${rec.inspeccion==='olor'?'selected':''}>Olores anómalos</option>
+          <option value="dano" ${rec.inspeccion==='dano'?'selected':''}>Daño físico</option>
         </select>
       </div>
-      <div class="form-group span2"><label>Observaciones</label><input type="text" id="e-obs" value="${r.obs||''}"></div>
+      <div class="form-group span2"><label>Observaciones</label><input type="text" id="e-obs" value="${rec.obs||''}"></div>
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
-      <button class="btn btn-secondary" onclick="openModal(${id})">Cancelar</button>
-      <button class="btn btn-caramel" onclick="guardarEdicion(${id})">Guardar cambios</button>
+      <button class="btn btn-secondary" onclick="openModalRecepcion(${id})">Cancelar</button>
+      <button class="btn btn-caramel" onclick="guardarEdicionRecepcion(${id})">Guardar cambios</button>
     </div>`;
 }
 
-function guardarEdicion(id) {
-  const lote = lotes.find(l => l.id === id);
-  if (!lote) return;
-  lote.recepcion.proveedor = document.getElementById('e-proveedor').value;
-  lote.recepcion.rgseaa = document.getElementById('e-rgseaa').value;
-  lote.recepcion.factura = document.getElementById('e-factura').value;
-  lote.recepcion.fecha_factura = document.getElementById('e-fecha-factura').value;
-  lote.recepcion.origen = document.getElementById('e-origen').value;
-  lote.recepcion.region = document.getElementById('e-region').value;
-  lote.recepcion.variedad = document.getElementById('e-variedad').value;
-  lote.recepcion.productor = document.getElementById('e-productor').value;
-  lote.recepcion.proceso = document.getElementById('e-proceso').value;
-  lote.recepcion.kg = document.getElementById('e-kg').value;
-  lote.recepcion.lote_proveedor = document.getElementById('e-lote-proveedor').value;
-  lote.recepcion.ota = document.getElementById('e-ota').value;
-  lote.recepcion.ota_cert = document.getElementById('e-ota-cert').value;
-  lote.recepcion.inspeccion = document.getElementById('e-inspeccion').value;
-  lote.recepcion.obs = document.getElementById('e-obs').value;
-  save(lote);
-  openModal(id);
+async function guardarEdicionRecepcion(id) {
+  const rec = recepciones.find(r => String(r.id) === String(id));
+  if (!rec) return;
+
+  const prev = JSON.parse(JSON.stringify(rec));
+  rec.proveedor = document.getElementById('e-proveedor').value;
+  rec.cif = document.getElementById('e-cif').value;
+  rec.rgseaa = document.getElementById('e-rgseaa').value;
+  rec.factura = document.getElementById('e-factura').value;
+  rec.fecha_factura = document.getElementById('e-fecha-factura').value;
+  rec.fecha_recepcion = rec.fecha_factura || rec.fecha_recepcion;
+  rec.precio_kg = document.getElementById('e-precio-kg').value;
+  rec.condiciones_pago = document.getElementById('e-condiciones').value;
+  rec.origen = document.getElementById('e-origen').value;
+  rec.region = document.getElementById('e-region').value;
+  rec.variedad = document.getElementById('e-variedad').value;
+  rec.productor = document.getElementById('e-productor').value;
+  rec.proceso = document.getElementById('e-proceso').value;
+  rec.kg_recibidos = parseFloat(document.getElementById('e-kg').value) || 0;
+  rec.lote_proveedor = document.getElementById('e-lote-proveedor').value;
+  rec.ota_value = document.getElementById('e-ota').value;
+  rec.certificado_ota = document.getElementById('e-ota-cert').value;
+  rec.inspeccion = document.getElementById('e-inspeccion').value;
+  rec.obs = document.getElementById('e-obs').value;
+
+  const ok = await saveRecepcion(rec);
+  if (!ok) { Object.assign(rec, prev); return; }
+  openModalRecepcion(id);
 }
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-function deleteLote(id) {
-  if (!confirm('¿Eliminar este lote? No se puede deshacer.')) return;
-  lotes = lotes.filter(l => l.id !== id);
-  save(); closeModal(); renderHistorial();
+async function confirmDeleteRecepcion(id) {
+  if (!confirm('¿Eliminar esta recepción? No se puede deshacer.')) return;
+  const ok = await deleteRecepcionRemote(id);
+  if (!ok) return;   // si tiene tostados, ya se ha avisado
+  recepciones = recepciones.filter(r => String(r.id) !== String(id));
+  document.getElementById('badge-count').textContent = recepciones.length;
+  closeModal();
+  renderHistorial();
+}
+
+async function confirmDeleteTostado(id) {
+  if (!confirm('¿Eliminar este tostado? El café verde correspondiente volverá a contar como pendiente en el saco.')) return;
+  const ok = await deleteTostadoRemote(id);
+  if (!ok) return;
+  const t = tostados.find(x => String(x.id) === String(id));
+  const recId = t?.recepcion_id;
+  tostados = tostados.filter(x => String(x.id) !== String(id));
+  if (recId) openModalRecepcion(recId);
+  else { closeModal(); renderHistorial(); }
+}
+
+// ═══════════════════════════════════════
+// EDICIÓN DE TOSTADO
+// ═══════════════════════════════════════
+function paseEditRowHtml(p) {
+  const v = (k, def='') => (p && p[k] !== undefined && p[k] !== null && p[k] !== '') ? p[k] : def;
+  return `
+    <div class="ep-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 36px;gap:8px;margin-bottom:6px;align-items:center;">
+      <input type="number" class="ep-kgin"   value="${v('kg_in')}"    step="0.001" placeholder="0.850">
+      <input type="number" class="ep-kgout"  value="${v('kg_out')}"   step="0.001" placeholder="0.717">
+      <input type="number" class="ep-temp"   value="${v('temp_max')}" step="0.1"   placeholder="206.7" style="border-color:var(--caramel);background:#fff8f0;font-weight:500;">
+      <input type="text"   class="ep-tiempo" value="${v('tiempo')}"   placeholder="11:05">
+      <button type="button" class="btn btn-danger" style="padding:9px 0;font-size:14px;line-height:1;height:38px;" title="Eliminar pase" onclick="this.closest('.ep-row').remove()">×</button>
+    </div>
+  `;
+}
+
+function addPaseEditRow() {
+  document.getElementById('e-pases-list').insertAdjacentHTML('beforeend', paseEditRowHtml(null));
+}
+
+function editTostado(id) {
+  const t = tostados.find(x => String(x.id) === String(id));
+  if (!t) return;
+  const rec = recepciones.find(r => String(r.id) === String(t.recepcion_id));
+  const sufijo = '-T' + String(t.numero_sesion || 0).padStart(2, '0');
+  const titulo = (rec ? rec.codigo : '?') + sufijo;
+
+  document.getElementById('modal-title').textContent = 'Editar — ' + titulo;
+
+  const pasesHtml = (t.pases || []).map(p => paseEditRowHtml(p)).join('');
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="form-grid cols2" style="gap:12px;margin-bottom:14px;">
+      <div class="form-group"><label>Fecha de tostado</label><input type="date" id="e-t-fecha" value="${t.fecha_tostado||''}"></div>
+      <div class="form-group"><label>Color Agtron / Colorette</label><input type="text" id="e-t-color" value="${t.color||''}"></div>
+    </div>
+
+    <div class="section-divider"><span>Pases — PCC-2: temperatura obligatoria</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 36px;gap:8px;font-size:10px;color:rgba(26,14,8,0.5);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;font-weight:500;">
+      <span>Kg entrada</span><span>Kg salida</span><span>T.ª (°C) <span style="color:var(--red);">*</span></span><span>Tiempo</span><span></span>
+    </div>
+    <div id="e-pases-list">${pasesHtml}</div>
+    <button type="button" class="btn btn-secondary" style="margin:8px 0 14px;" onclick="addPaseEditRow()">+ Añadir pase</button>
+
+    <div class="form-grid cols3" style="gap:12px;margin-bottom:14px;">
+      <div class="form-group"><label>Resultado cata</label>
+        <select id="e-t-cata">
+          <option value="">— —</option>
+          <option value="aprobado"  ${t.cata==='aprobado'?'selected':''}>✓ Aprobado</option>
+          <option value="retostado" ${t.cata==='retostado'?'selected':''}>Re-tostado necesario</option>
+          <option value="rechazado" ${t.cata==='rechazado'?'selected':''}>Rechazado</option>
+        </select>
+      </div>
+      <div class="form-group span2"><label>Notas de cata</label><input type="text" id="e-t-cata-obs" value="${t.cata_obs||''}"></div>
+    </div>
+
+    <div class="form-grid cols4" style="gap:12px;margin-bottom:14px;">
+      <div class="form-group"><label>N.º bolsas</label><input type="number" id="e-t-bolsas" value="${t.bolsas||''}"></div>
+      <div class="form-group"><label>Formato</label>
+        <select id="e-t-formato">
+          <option value="250"  ${String(t.formato)==='250' ?'selected':''}>250 g</option>
+          <option value="500"  ${String(t.formato)==='500' ?'selected':''}>500 g</option>
+          <option value="1000" ${String(t.formato)==='1000'?'selected':''}>1.000 g</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Presentación</label>
+        <select id="e-t-presentacion">
+          <option value="grano"  ${t.presentacion==='grano' ?'selected':''}>Grano</option>
+          <option value="molido" ${t.presentacion==='molido'?'selected':''}>Molido</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Sellado</label>
+        <select id="e-t-sellado">
+          <option value="">— —</option>
+          <option value="ok" ${t.sellado==='ok'?'selected':''}>✓ Correcto</option>
+          <option value="nc" ${t.sellado==='nc'?'selected':''}>NC — bolsas defectuosas</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:14px;">
+      <label>Incidencias y acciones correctoras</label>
+      <textarea id="e-t-incidencias">${t.incidencias||''}</textarea>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--border);">
+      <button class="btn btn-secondary" onclick="openModalTostado(${id})">Cancelar</button>
+      <button class="btn btn-caramel" onclick="guardarEdicionTostado(${id})">Guardar cambios</button>
+    </div>
+  `;
+}
+
+async function guardarEdicionTostado(id) {
+  const t = tostados.find(x => String(x.id) === String(id));
+  if (!t) return;
+
+  // Recoger pases editados
+  const newPases = [];
+  document.querySelectorAll('#e-pases-list .ep-row').forEach(row => {
+    const kg_in    = parseFloat(row.querySelector('.ep-kgin').value)   || 0;
+    const kg_out   = parseFloat(row.querySelector('.ep-kgout').value)  || 0;
+    const temp_max = parseFloat(row.querySelector('.ep-temp').value)   || 0;
+    const tiempo   = row.querySelector('.ep-tiempo').value;
+    newPases.push({ kg_in, kg_out, temp_max, tiempo });
+  });
+
+  if (!newPases.length) {
+    alert('Debe haber al menos un pase de tostado.');
+    return;
+  }
+
+  // PCC-2: temperatura obligatoria en cada pase
+  const sinTemp = newPases.findIndex(p => !p.temp_max || p.temp_max <= 0);
+  if (sinTemp >= 0) {
+    alert(`El pase ${sinTemp+1} no tiene temperatura máxima.\n\nLa temperatura es PCC-2 del APPCC y no puede quedar vacía. Introduce la temperatura alcanzada en este pase antes de guardar.`);
+    return;
+  }
+
+  const fecha   = document.getElementById('e-t-fecha').value;
+  const cata    = document.getElementById('e-t-cata').value;
+  const sellado = document.getElementById('e-t-sellado').value;
+  if (!fecha || !cata || !sellado) {
+    alert('Rellena Fecha de tostado, Resultado de cata y Sellado.');
+    return;
+  }
+
+  const totKgin  = newPases.reduce((s,p) => s + p.kg_in,  0);
+  const totKgout = newPases.reduce((s,p) => s + p.kg_out, 0);
+  const tempMax  = newPases.reduce((m,p) => Math.max(m, p.temp_max), 0);
+  const allTempOk = newPases.every(p => p.temp_max >= 200);
+  const hayNC = !allTempOk || sellado === 'nc' || cata === 'rechazado';
+
+  // snapshot por si Sheets falla
+  const prev = JSON.parse(JSON.stringify(t));
+
+  t.fecha_tostado = fecha;
+  t.pases = newPases;
+  t.kg_verde_entrada  = parseFloat(totKgin.toFixed(3));
+  t.kg_tostado_salida = parseFloat(totKgout.toFixed(3));
+  t.temperatura_max   = parseFloat(tempMax.toFixed(1));
+  t.pcc_conforme      = !hayNC;
+  t.merma = totKgin > 0 ? ((totKgin - totKgout) / totKgin * 100).toFixed(1) + '%' : '—';
+  t.color        = document.getElementById('e-t-color').value;
+  t.cata         = cata;
+  t.cata_obs     = document.getElementById('e-t-cata-obs').value;
+  t.bolsas       = document.getElementById('e-t-bolsas').value;
+  t.formato      = document.getElementById('e-t-formato').value;
+  t.presentacion = document.getElementById('e-t-presentacion').value;
+  t.sellado      = sellado;
+  t.incidencias  = document.getElementById('e-t-incidencias').value;
+
+  // Recompute etiqueta (la fecha o presentación pueden haber cambiado)
+  const rec = recepciones.find(r => String(r.id) === String(t.recepcion_id));
+  if (rec) {
+    const sufijo = '-T' + String(t.numero_sesion || 0).padStart(2, '0');
+    t.etiqueta = computeEtiqueta(t, rec, sufijo);
+  }
+
+  const ok = await saveTostado(t);
+  if (!ok) {
+    Object.assign(t, prev);
+    return;
+  }
+  openModalTostado(id);
 }
 
 // ═══════════════════════════════════════
 // BACKUP
 // ═══════════════════════════════════════
 function exportBackup() {
-  const blob = new Blob([JSON.stringify({exportado:new Date().toISOString(),total:lotes.length,lotes},null,2)],{type:'application/json'});
+  const payload = {
+    exportado: new Date().toISOString(),
+    total_recepciones: recepciones.length,
+    total_tostados: tostados.length,
+    recepciones,
+    tostados
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `CoteCafe_Backup_${new Date().toISOString().split('T')[0]}.json`;
@@ -1616,65 +1959,45 @@ function exportBackup() {
 
 function importBackup() { document.getElementById('import-file').click(); }
 
-function handleImport(e) {
+async function handleImport(e) {
   const file = e.target.files[0];
   if (!file) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    try {
-      const data = JSON.parse(ev.target.result);
-      if (!data.lotes) { alert('Archivo no válido.'); return; }
-      if (!confirm(`Importar ${data.lotes.length} lotes del backup del ${new Date(data.exportado).toLocaleDateString('es-ES')}? Los lotes actuales se mantendrán.`)) return;
-      const ids = new Set(lotes.map(l => l.id));
-      data.lotes.forEach(l => { if (!ids.has(l.id)) lotes.push(l); });
-      save(); renderHistorial();
-      alert('Backup importado correctamente.');
-    } catch { alert('Error al leer el archivo.'); }
-  };
-  r.readAsText(file);
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    if (!data.recepciones && !data.tostados) {
+      alert('Archivo no válido. Debe contener "recepciones" o "tostados".');
+      return;
+    }
+    const totalR = (data.recepciones||[]).length;
+    const totalT = (data.tostados||[]).length;
+    if (!confirm(`Importar ${totalR} recepciones y ${totalT} tostados a Google Sheets? Los registros con el mismo ID se actualizarán.`)) return;
+
+    let okCount = 0, fail = 0;
+    for (const r of (data.recepciones || [])) {
+      const ok = await saveRecepcion(r);
+      if (ok) okCount++; else { fail++; break; }
+    }
+    if (!fail) {
+      for (const t of (data.tostados || [])) {
+        const ok = await saveTostado(t);
+        if (ok) okCount++; else { fail++; break; }
+      }
+    }
+    await loadFromSheets();
+    alert(`Importados ${okCount} registros${fail ? ', se detuvo la importación por un error' : ''}.`);
+  } catch (err) {
+    alert('Error al leer el archivo: ' + err.message);
+  }
   e.target.value = '';
-}
-
-// ═══════════════════════════════════════
-// IMPRIMIR ETIQUETA DESDE HISTORIAL
-// ═══════════════════════════════════════
-function imprimirEtiquetaDesdeHistorial(id) {
-  const lote = lotes.find(l => l.id === id);
-  if (!lote?.tostado) return;
-  const t = lote.tostado;
-  const d = new Date(t.fecha);
-  const presentacion = t.presentacion;
-
-  const fmt = dt => `${String(dt.getDate()).padStart(2,'0')} / ${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
-  const fmtMes = dt => `${String(dt.getMonth()+1).padStart(2,'0')} / ${dt.getFullYear()}`;
-
-  const consLegal = new Date(d); consLegal.setMonth(consLegal.getMonth() + (presentacion === 'molido' ? 9 : 12));
-  const consCalidad = new Date(d); consCalidad.setMonth(consCalidad.getMonth() + (presentacion === 'molido' ? 4 : 6));
-
-  document.getElementById('pz-fecha').textContent = fmt(d);
-  document.getElementById('pz-cons-legal').textContent = fmtMes(consLegal);
-  document.getElementById('pz-cons-calidad').textContent = fmtMes(consCalidad);
-  document.getElementById('pz-lote').textContent = 'L: ' + lote.codigo;
-
-  document.body.classList.add('printing-etiqueta');
-  window.print();
-  window.addEventListener('afterprint', () => {
-    document.body.classList.remove('printing-etiqueta');
-  }, { once: true });
 }
 
 // ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
-document.getElementById('badge-count').textContent = lotes.length;
 document.getElementById('t-fecha').value = new Date().toISOString().split('T')[0];
-
-// Comprobar API key al arrancar
-actualizarEstadoApiKey();
-if (!getApiKey()) {
-  // Primera vez: mostrar el modal de configuración sin opción de cancelar
-  openApiKeyModal();
-}
+document.getElementById('boot-retry').addEventListener('click', () => boot());
+boot();
 </script>
 </body>
 </html>
